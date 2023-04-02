@@ -17,12 +17,21 @@ class IngredientsController < ApplicationController
 
     def update
         ingredient = Ingredients.find_by(id: params[:id])
-        render json: ingredient
+        if ingredient.update(ingredient_params)
+            render json: ingredient 
+        else
+            render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+        end
     end
 
     def destroy
         ingredient = Ingredients.find_by(id: params[:id])
         ingredient.destroy
+        if ingredient.destroy
+            render json: ingredient { message: "Ingredient deleted successfully" }
+        else
+            render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+        end
     end
 
     private
