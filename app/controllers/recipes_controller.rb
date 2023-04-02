@@ -15,4 +15,10 @@ class RecipesController < ApplicationController
     def delete
     end
     
+    private
+
+  def recipe_params
+    params.require(:recipe).permit(:name, :description, :instructions, :user_id)
+  end
+
 end
