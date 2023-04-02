@@ -1,18 +1,32 @@
 class RecipesController < ApplicationController
 
     def index
+        recipes = Recipe.all 
+        render json: users
     end
 
     def show
+        recipe = Recipe.find_by(id: params[:id])
+        render json: recipe
     end
 
     def create
+        recipe = Recipe.new(recipe_params)
+        render json: recipe
     end
 
     def update
+        recipe = Recipe.find_by(id: params[:id])
+        if recipe.update(recipe_params)
+            render json: recipe
+          else
+            render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity
+          end
     end
 
-    def delete
+    def destroy
+        recipe = Recipe.find_by(id: params[:id])
+        recipe.destroy
     end
     
     private
