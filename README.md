@@ -28,3 +28,7 @@ session
 user
 ingredients
 recipe
+
+User
+Recipe
+Ingredients
