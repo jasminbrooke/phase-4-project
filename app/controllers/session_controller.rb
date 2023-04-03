@@ -7,6 +7,7 @@ class SessionController < ApplicationController
   end
 
   def create
+    
   end
 
   def destroy

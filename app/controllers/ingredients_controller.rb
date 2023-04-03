@@ -6,17 +6,17 @@ class IngredientsController < ApplicationController
     end
 
     def show
-        ingredient = Ingredients.find_by(id: params[:id])
+        ingredient = Ingredient.find_by(id: params[:id])
         render json: ingredient
     end
 
     def create
-        ingredient = Ingredients.new(ingredient_params)
+        ingredient = Ingredient.new(ingredient_params)
         render json: ingredient
     end
 
     def update
-        ingredient = Ingredients.find_by(id: params[:id])
+        ingredient = Ingredient.find_by(id: params[:id])
         if ingredient.update(ingredient_params)
             render json: ingredient 
         else
@@ -25,7 +25,7 @@ class IngredientsController < ApplicationController
     end
 
     def destroy
-        ingredient = Ingredients.find_by(id: params[:id])
+        ingredient = Ingredient.find_by(id: params[:id])
         ingredient.destroy
         if ingredient.destroy
             render json: ingredient { message: "Ingredient deleted successfully" }

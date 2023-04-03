@@ -2,7 +2,7 @@ class RecipesController < ApplicationController
 
     def index
         recipes = Recipe.all 
-        render json: users
+        render json: recipes
     end
 
     def show
@@ -26,7 +26,6 @@ class RecipesController < ApplicationController
 
     def destroy
         recipe = Recipe.find_by(id: params[:id])
-        recipe.destroy
             if recipe.destroy
                 render json: { message: "Recipe deleted successfully" }
             else
