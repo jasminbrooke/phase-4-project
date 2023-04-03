@@ -12,7 +12,13 @@ class UsersController < ApplicationController
 
     def create
         user = User.new(user_params)
-        render json: user
+        if user.save # Set user_id in session hash if user is saved successfully
+            
+            session[:user_id] = user.id
+            render json: user, status: :created
+        else
+            render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+        end
     end
 
     def update
@@ -20,6 +26,7 @@ class UsersController < ApplicationController
         if user.update(user_params)
             render json: user
           else
+            session.delete(:user_id) # Unset user_id if user fails to save
             render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
           end
     end
@@ -37,7 +44,7 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.require(:user).permit(:name, :username, :password_digest)
+        params.require(:user).permit(:name, :username, :password, :password_confirmation)
     end
 
 end
