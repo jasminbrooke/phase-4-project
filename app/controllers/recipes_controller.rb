@@ -1,8 +1,13 @@
 class RecipesController < ApplicationController
 
     def index
-        recipes = Recipe.all 
-        render json: recipes
+        if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/ingredients
+            user = User.find_by!(id: params[:user_id])
+            render json: user.recipes
+        else
+            recipes = Recipe.all 
+            render json: recipes
+        end
     end
 
     def show
