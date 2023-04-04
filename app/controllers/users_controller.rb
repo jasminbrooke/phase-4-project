@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     end
 
     def show
-        user = User.find_by(id: params[:id])
+        user = User.find_by!(id: params[:id])
         render json: user
     end
 
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     end
 
     def update
-        user = User.find_by(id: params[:id])
+        user = User.find_by!(id: params[:id])
         if user.update(user_params)
             render json: user
           else
@@ -32,9 +32,9 @@ class UsersController < ApplicationController
     end
 
     def destroy
-        user = User.find_by(id: params[:id])
+        user = User.find_by!(id: params[:id])
         if user.destroy
-            render json: { message: "User deleted successfully" }
+            render json: { message: "User deleted successfully" }, status: :deleted
           else
             render json: { error: user.errors.full_messages }, status: :unprocessable_entity
           end

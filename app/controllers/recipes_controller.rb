@@ -6,7 +6,7 @@ class RecipesController < ApplicationController
     end
 
     def show
-        recipe = Recipe.find_by(id: params[:id])
+        recipe = Recipe.find_by!(id: params[:id])
         render json: recipe
     end
 
@@ -16,7 +16,7 @@ class RecipesController < ApplicationController
     end
 
     def update
-        recipe = Recipe.find_by(id: params[:id])
+        recipe = Recipe.find_by!(id: params[:id])
         if recipe.update(recipe_params)
             render json: recipe
           else
@@ -25,9 +25,9 @@ class RecipesController < ApplicationController
     end
 
     def destroy
-        recipe = Recipe.find_by(id: params[:id])
+        recipe = Recipe.find_by!(id: params[:id])
             if recipe.destroy
-                render json: { message: "Recipe deleted successfully" }
+                render json: { message: "Recipe deleted successfully" }, status: :deleted
             else
                 render json: { error: recipe.errors.full_messages }, status: :unprocessable_entity
             end
