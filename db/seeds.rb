@@ -10,11 +10,15 @@ puts "seeding..."
 # =================== users
 # ========================================================
 
-# User.create([{name: 'Joe', username: 'Joe1', password_digest: '123'}, {name:'Richard', username: 'RichieRich', password_digest:'123'}])
+# User.create([
+#     {name: 'Joe', username: 'Joe1', password_digest: BCrypt::Password.create('123')},
+#     {name:'Richard', username: 'RichieRich', password_digest: BCrypt::Password.create('123')},
+#     {name: 'Nixie', username: 'Nixinator', password_digest: BCrypt::Password.create('pupper')}
+# ])
 # Ingredient.create([{name:'Pasta'}, {name:'Sauce'}, {name: 'Garlic}'}])
 
-# ==================== recipes
-# ========================================================
+# # ==================== recipes
+# # ========================================================
 
 # Recipe.create([
 #   {
@@ -25,7 +29,8 @@ puts "seeding..."
 # 3. Add canned tomatoes, tomato paste, and beef broth to the skillet. Stir well to combine and bring the sauce to a simmer.
 # 4. Reduce the heat to low and let the sauce simmer for about 45 minutes, stirring occasionally.
 # 5. While the sauce is cooking, bring a large pot of salted water to a boil. Add spaghetti and cook for 8-10 minutes, until al dente.
-# 6. Drain the pasta and serve topped with the Bolognese sauce and freshly grated Parmesan cheese."
+# 6. Drain the pasta and serve topped with the Bolognese sauce and freshly grated Parmesan cheese.",
+#     user_id: User.first.id
 #   },
 #   {
 #     name: "Roast Chicken",
@@ -34,7 +39,8 @@ puts "seeding..."
 # 2. Rinse the chicken inside and out with cold water and pat dry with paper towels.
 # 3. Season the chicken generously with salt, pepper and any other herbs or spices you like.
 # 4. Place the chicken in a roasting pan and roast for about 1 1/2 hours, until the juices run clear when the thigh is pierced with a fork.
-# 5. Let the chicken rest for 10 minutes before carving and serving."
+# 5. Let the chicken rest for 10 minutes before carving and serving.",
+#     user_id: User.first.id
 #   },
 #   {
 #     name: "Chocolate Cake",
@@ -46,7 +52,8 @@ puts "seeding..."
 # 5. In a separate bowl, whisk together flour, cocoa powder, baking powder, and baking soda.
 # 6. Gradually add the dry ingredients to the wet mixture, alternating with milk and mixing well after each addition.
 # 7. Pour the batter into the prepared cake pan and bake for about 30 minutes, until a toothpick inserted in the center comes out clean.
-# 8. Allow the cake to cool before frosting with your favorite frosting recipe."
+# 8. Allow the cake to cool before frosting with your favorite frosting recipe.",
+# user_id: User.second.id
 #   },
 #   {
 #     name: "Tomato and Basil Pasta",
@@ -57,8 +64,17 @@ puts "seeding..."
 #   4. Add 2 cups of diced fresh tomatoes and 1/4 cup of chopped fresh basil to the skillet. Cook for 5-7 minutes, stirring occasionally, until the tomatoes have broken down and released their juices.
 #   5. Season the tomato mixture with salt and black pepper to taste.
 #   6. Drain the pasta and add it to the skillet with the tomato mixture. Toss everything together until the pasta is coated in the sauce.
-#   7. Serve the pasta hot, topped with grated Parmesan cheese if desired."
+#   7. Serve the pasta hot, topped with grated Parmesan cheese if desired.",
+#   user_id: User.second.id
+#   },
+#   {
+#     name:'Pupcup',
+#     description: "A delicous cup for a pup!",
+#     instructions: "Dispense some whipped cream into a cup.",
+#     user_id: User.third.id
 #   }
 # ])
+
+# UserRecipe.create(user_id: User.third.id, recipe_id: Recipe.last.id)
 
 puts "seeded"

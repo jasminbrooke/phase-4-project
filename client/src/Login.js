@@ -1,27 +1,60 @@
 import React, { useState } from 'react';
+import { TextField, Button } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
-function Login() {
+const Login = ({ handleLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // handle login logic here
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.errors) {
+            setErrors(data.errors)
+        } else {
+            debugger
+            handleLogin(data)
+        }
+    })
   }
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <button type="submit">Login</button>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <TextField
+            //  error={errors.productname}
+            // helperText={errors.productname}
+            onChange={(e) => setUsername(e.target.value)}
+            id="outlined-basic"
+            label="Username"
+            variant="outlined"
+            size="small"
+        />
+        <TextField
+            //  error={errors.productname}
+            // helperText={errors.productname}
+            onChange={(e) => setPassword(e.target.value)}
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
+            size="small"
+        />
+        <Button type="submit">Login</Button>
       </form>
+      {errors.map((error, i) => <Typography key={i}>{ error }</Typography>)}
+      
     </div>
   );
 }

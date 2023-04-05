@@ -5,15 +5,16 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import RecipeList from './RecipeList';
 
-function UserHome() {
+const UserHome = (user) => {
 
 
     return (
         <div>
-            hi!
+            Welcome, {user}!
 
-            <RecipeCard />
+            <RecipeList />
         </div>
     )
 }
