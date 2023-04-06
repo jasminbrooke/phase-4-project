@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 // import CardMenu from './CardMenu'
 // import CardDetails from './CardDetails'
-// import { styled } from '@mui/material/styles';
-// import { Box } from '@mui/material';
-// import Card from '@mui/material/Card';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
+import Card from '@mui/material/Card';
 // import CardHeader from '@mui/material/CardHeader';
 // import CardMedia from '@mui/material/CardMedia';
 // import CardContent from '@mui/material/CardContent';
@@ -20,7 +20,12 @@ import React, { useState } from 'react'
 
 const RecipeCard = ({ recipe }) => {
     return (
-        <p>{recipe.name}</p>
+        <Box gridColumn="span 3">
+            <Card>
+                <p>{recipe.name}</p>
+                {recipe.description}
+            </Card>
+        </Box>
     )
 }
 
