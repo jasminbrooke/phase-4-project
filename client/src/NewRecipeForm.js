@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import RecipeList from './RecipeList';
 import UserEditForm from './UserEditForm'
 
-const NewRecipeForm = ( { currentUser } ) => {
+const NewRecipeForm = ( { currentUser, addToUserRecipes } ) => {
 const [name, setName] = useState("")
 const [description, setDescription] = useState("")
 const [instructions, setInstructions] = useState("")
@@ -34,7 +34,7 @@ const handleSubmit = (event) => {
         if(data.errors) {
             setErrors(data.errors)
         } else {
-            console.log(data)
+            addToUserRecipes(data)
         }
     })
   }

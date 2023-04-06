@@ -11,9 +11,12 @@ import NewRecipeForm from './NewRecipeForm';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import IngredientList from './IngredientList'
 
 
-const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
+const UserHome = ({ currentUser, handleLogin, handleLogout, addToUserRecipes }) => {
+
+  const [editmode, setEditmode] = useState(false)
 
     // const confirmDelete = () => {
     //     return (
@@ -36,7 +39,9 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
         .then(() => handleLogout())
     }
 
-
+    const handleEditModeClick = () => {
+      setEditmode(true);
+    }
 
 
     // return (
@@ -56,24 +61,33 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
 
 
     return (
+      <div>
+        Welcome, <AccountCircleIcon/> {currentUser?.name}!
+        <Button onClick={() => handleLogout()}>Log Out</Button>
         <Box gridColumn="span 3">
-              Welcome, <AccountCircleIcon/> {currentUser?.name}!
-              <Button onClick={() => handleLogout()}>Log Out</Button>
               
+        {editmode 
+        ? <div> 
+          <UserEditForm currentUser={currentUser} handleLogin={handleLogin}/> <Button onClick={() => setEditmode(false)}> X </Button>
+          </div>
+        : <Button onClick={() => handleEditModeClick()}>Edit Profile</Button>
+        }
 
             <div id='userHomeDiv'>
-              <UserEditForm currentUser={currentUser} handleLogin={handleLogin}/>
-              <Button onClick={() => handleDelete()}>Delete Account</Button>
+            
+            <Button onClick={() => handleDelete()}>Delete Account</Button>
           </div>
 
           <div>
             <Card style={{"float": "left"}} sx={{ maxWidth: 345 }}>
               Create New Recipe
-              <NewRecipeForm currentUser={currentUser} />
+              <NewRecipeForm currentUser={currentUser} addToUserRecipes={addToUserRecipes} />
             </Card>
             </div >
           <RecipeList recipes={currentUser.recipes}/>
+          <IngredientList ingredients={currentUser.ingredients}/> 
         </Box>
+        </div>
       );
       
 }

@@ -70,23 +70,29 @@ const handleLogout = () => {
   .then(() => setCurrentUser(null))
 }
 
-const renderPage = (() => {
-  if(currentUser) {
-    return <UserHome 
-            currentUser={currentUser}
-            handleLogin={handleLogin}
-            handleLogout={handleLogout}
-           />
-  } else {
-    return (
-      <>
-        <Login handleLogin={handleLogin} />
-        <Signup handleLogin={handleLogin} />
-      </>
-    )
-  }
-})
+  const renderPage = (() => {
+    if(currentUser) {
+      return <UserHome 
+              currentUser={currentUser}
+              handleLogin={handleLogin}
+              handleLogout={handleLogout}
+              addToUserRecipes={addToUserRecipes}
+            />
+    } else {
+      return (
+        <>
+          <Login handleLogin={handleLogin} />
+          <Signup handleLogin={handleLogin} />
+        </>
+      )
+    }
+  })
 
+  const addToUserRecipes = (newRecipe) => {
+    const updatedUser = currentUser
+    updatedUser.recipes.push(newRecipe)
+    setCurrentUser(updatedUser)
+  }
 
   return (
     <div>

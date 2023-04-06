@@ -16,17 +16,21 @@ class RecipesController < ApplicationController
     end
 
     def create
-        recipe = Recipe.new(recipe_params)
-        render json: recipe
+        recipe = Recipe.create(recipe_params)
+        if recipe.valid? 
+            render json: recipe, status: :created
+        else
+            render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity
+        end
     end
 
     def update
         recipe = Recipe.find_by!(id: params[:id])
         if recipe.update(recipe_params)
             render json: recipe
-          else
+        else
             render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity
-          end
+        end
     end
 
     def destroy

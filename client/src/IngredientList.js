@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
-function IngredientList() {
+function IngredientList( { ingredients } ) {
 
 
     return (
         <div>
             hi!
+            {ingredients}
         </div>
     )
 }

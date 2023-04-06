@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
+    user = User.create(user_params)
     if user.valid? # Set user_id in session hash if user is saved successfully
       session[:user_id] = user.id
       render json: user, status: :created
