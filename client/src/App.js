@@ -17,7 +17,6 @@ import UserHome from './UserHome'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
-  // const [users, setUsers] = useState([])
 
   // useEffect(() => {
   //   getUsers()
@@ -76,7 +75,6 @@ const handleLogout = () => {
               currentUser={currentUser}
               handleLogin={handleLogin}
               handleLogout={handleLogout}
-              addToUserRecipes={addToUserRecipes}
             />
     } else {
       return (
@@ -87,12 +85,6 @@ const handleLogout = () => {
       )
     }
   })
-
-  const addToUserRecipes = (newRecipe) => {
-    const updatedUser = currentUser
-    updatedUser.recipes.push(newRecipe)
-    setCurrentUser(updatedUser)
-  }
 
   return (
     <div>

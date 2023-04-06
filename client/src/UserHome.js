@@ -12,11 +12,17 @@ import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import IngredientList from './IngredientList'
+import CancelIcon from '@mui/icons-material/Cancel';
 
 
-const UserHome = ({ currentUser, handleLogin, handleLogout, addToUserRecipes }) => {
+const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
 
   const [editmode, setEditmode] = useState(false)
+  const [recipes, setRecipes] = useState([])
+
+  useEffect(() => {
+    setRecipes(currentUser.recipes)
+  }, [currentUser])
 
     // const confirmDelete = () => {
     //     return (
@@ -58,8 +64,8 @@ const UserHome = ({ currentUser, handleLogin, handleLogout, addToUserRecipes }) 
     //         {/* <RecipeList /> */}
     //     </div>
     // )
-
-
+    const addToUserRecipes = (newRecipe) => setRecipes(prevState => [...prevState, newRecipe])
+    
     return (
       <div>
         Welcome, <AccountCircleIcon/> {currentUser?.name}!
@@ -68,7 +74,7 @@ const UserHome = ({ currentUser, handleLogin, handleLogout, addToUserRecipes }) 
               
         {editmode 
         ? <div> 
-          <UserEditForm currentUser={currentUser} handleLogin={handleLogin}/> <Button onClick={() => setEditmode(false)}> X </Button>
+          <UserEditForm currentUser={currentUser} handleLogin={handleLogin}/> <Button onClick={() => setEditmode(false)}> <CancelIcon/> </Button>
           </div>
         : <Button onClick={() => handleEditModeClick()}>Edit Profile</Button>
         }
@@ -84,7 +90,7 @@ const UserHome = ({ currentUser, handleLogin, handleLogout, addToUserRecipes }) 
               <NewRecipeForm currentUser={currentUser} addToUserRecipes={addToUserRecipes} />
             </Card>
             </div >
-          <RecipeList recipes={currentUser.recipes}/>
+          <RecipeList recipes={recipes}/>
           <IngredientList ingredients={currentUser.ingredients}/> 
         </Box>
         </div>
