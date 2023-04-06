@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react'
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { BrowserRouter, Route, NavLink, Routes as Switch } from "react-router-dom";
 import Login from './Login'
+import Signup from './Signup'
 import UserHome from './UserHome'
 
 // check if a user is logged in
@@ -73,10 +74,16 @@ const renderPage = (() => {
   if(currentUser) {
     return <UserHome 
             currentUser={currentUser}
+            handleLogin={handleLogin}
             handleLogout={handleLogout}
            />
   } else {
-    return <Login handleLogin={handleLogin} />
+    return (
+      <>
+        <Login handleLogin={handleLogin} />
+        <Signup handleLogin={handleLogin} />
+      </>
+    )
   }
 })
 

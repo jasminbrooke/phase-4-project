@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
   get "/me", to: "users#show"
+  post "/signup", to: "users#create"
   resources :sessions, only: [:new, :create, :destroy]
-  resources :ingredients, only: %i[create show index update delete]
-  resources :recipes, only: %i[create show index update delete]
-  resources :users, only: %i[create index update delete] do
+  resources :ingredients, only: %i[create show index update destroy]
+  resources :recipes, only: %i[create show index update destroy]
+  resources :users, only: %i[index update destroy] do
     resources :ingredients, only: %i[index]
     resources :recipes, only: %i[index]
   end
