@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  post "/login", to: "session#create"
-  delete "/logout", to: "session#destroy"
-  get "/me", to: "user#show"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
+  get "/me", to: "users#show"
   resources :sessions, only: [:new, :create, :destroy]
   resources :ingredients, only: %i[create show index update delete]
   resources :recipes, only: %i[create show index update delete]

@@ -7,14 +7,16 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import RecipeList from './RecipeList';
 
-const UserHome = (user) => {
+const UserHome = ({ currentUser, handleLogout }) => {
 
 
     return (
         <div>
-            Welcome, {user}!
+            
+            Welcome, {currentUser?.name}!
+            <Button onClick={() => handleLogout()}>Log Out</Button>
 
-            <RecipeList />
+            {/* <RecipeList /> */}
         </div>
     )
 }

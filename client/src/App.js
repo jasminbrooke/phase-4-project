@@ -10,7 +10,9 @@ import UserHome from './UserHome'
 
 // check if a user is logged in
 // Then render their home page if they are
+// --- ok now what?
 // Or render the login screen if they are not
+// What about signing up? - username, password, and confirmation
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
@@ -60,11 +62,18 @@ useEffect(() => {
 }, []);
 
 const handleLogin = (user) => setCurrentUser(user)
+const handleLogout = () => {
+  fetch('/logout', {
+      method: 'DELETE',
+  })
+  .then(() => setCurrentUser(null))
+}
 
 const renderPage = (() => {
   if(currentUser) {
     return <UserHome 
             currentUser={currentUser}
+            handleLogout={handleLogout}
            />
   } else {
     return <Login handleLogin={handleLogin} />
@@ -84,7 +93,7 @@ const renderPage = (() => {
           </ul>
         </nav>
         <Switch>
-          <Route path="/login" element={<Login />}/>
+          {/* <Route exact path="/login" element={<Login />}/> */}
         </Switch>
       </div>
     </BrowserRouter>

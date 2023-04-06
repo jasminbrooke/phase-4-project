@@ -24,7 +24,6 @@ const Login = ({ handleLogin }) => {
         if(data.errors) {
             setErrors(data.errors)
         } else {
-            debugger
             handleLogin(data)
         }
     })

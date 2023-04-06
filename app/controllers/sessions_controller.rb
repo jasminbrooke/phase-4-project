@@ -1,4 +1,4 @@
-class SessionController < ApplicationController
+class SessionsController < ApplicationController
 
   # def new
   #   user = User.find_by!(username: params[:username])
@@ -10,15 +10,14 @@ class SessionController < ApplicationController
     user = User.find_by!(username: params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      render json: user
+      render json: user, status: :created
     else
       render json: { errors: ["Invalid username or password"] }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    session.delete :user_id
+    session.delete(:user_id)
     head :no_content
   end
-  
 end
