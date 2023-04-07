@@ -7,10 +7,9 @@ const NavBar = () => {
     return (
         <AppBar>
             <Toolbar id='navbar'>
-                <NavLink exact to="/">Home</NavLink>
-                <NavLink to="/UserEditForm">Manage Account</NavLink>
-                <NavLink to="/NewRecipeForm">Create a Recipe</NavLink>
-                <NavLink to="/RecipeList">View My Recipes</NavLink>
+                <NavLink to="/users/:user_id/recipes">View My Recipes</NavLink>
+                <NavLink to="/users/:id">Manage Account</NavLink>
+                <NavLink to="/recipes">Create a Recipe</NavLink>
             </Toolbar>
         </AppBar>
     );
