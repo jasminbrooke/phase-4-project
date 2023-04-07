@@ -5,7 +5,7 @@ import RecipeCard from './RecipeCard'
 const RecipeList = ({ recipes }) => {
 
     return (
-        <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+        <Box className='nav-component' display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
             {
                 recipes.map((recipe, i) => 
                     <RecipeCard

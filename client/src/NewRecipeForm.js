@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { TextField, Alert, Button } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import RecipeList from './RecipeList';
-import UserEditForm from './UserEditForm'
+import Card from '@mui/material/Card';
 
 const NewRecipeForm = ( { currentUser, addToUserRecipes } ) => {
 const [name, setName] = useState("")
@@ -40,43 +35,43 @@ const handleSubmit = (event) => {
   }
 
   return (
-    <div>
-        <Card sx={{ maxWidth: 250 }}>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <TextField
-            //  error={errors.productname}
-            // helperText={errors.productname}
-            defaultValue={name}
-            onChange={(e) => setName(e.target.value)}
-            id="outlined-basic"
-            label="Name"
-            variant="outlined"
-            size="small"
-        />
-        <TextField
-            //  error={errors.productname}
-            // helperText={errors.productname}
-            defaultValue={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
-            id="outlined-basic"
-            label="Instructions"
-            variant="outlined"
-            size="small"
-        />
-        <TextField
-            //  error={errors.productname}
-            // helperText={errors.productname}
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            id="outlined-basic"
-            label="Description"
-            variant="outlined"
-            size="small"
-        />
-        <Button type="submit">Create New Recipe</Button>
-      </form>
-      {/* {errors.map((error, i) => <Typography key={i}>{ error }</Typography>)} */}
-      </Card>
+    <div className='nav-component'>
+        <Card sx={{ width: 350 }}>
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <div className="user-edit-field">
+                    <TextField
+                        defaultValue={name}
+                        onChange={(e) => setName(e.target.value)}
+                        id="outlined-basic"
+                        label="Name"
+                        variant="outlined"
+                        size="small"
+                    />
+                </div>
+                 <div className="user-edit-field">
+                    <TextField
+                        defaultValue={instructions}
+                        onChange={(e) => setInstructions(e.target.value)}
+                        id="outlined-basic"
+                        label="Instructions"
+                        variant="outlined"
+                        size="small"
+                    />
+                 </div>
+                 <div className="user-edit-field">
+                    <TextField
+                        defaultValue={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        id="outlined-basic"
+                        label="Description"
+                        variant="outlined"
+                        size="small"
+                    />
+                 </div>
+                <Button type="submit">Create New Recipe</Button>
+            </form>
+            {errors.map((error, i) => <Typography key={i}>{ error }</Typography>)}
+        </Card>
     </div>
   )}
 

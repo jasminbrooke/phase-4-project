@@ -73,14 +73,20 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
           <NavBar />
           <div>
             <Switch>
-              {/* <Route exact path="/login" element={<Login />}/> */}
+              <Route exact path="/NewRecipeForm" element={<NewRecipeForm />}/>
+            </Switch>
+            <Switch>
+              <Route exact path="/UserEditForm" element={<UserEditForm currentUser={currentUser} handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
+            </Switch>
+            <Switch>
+              <Route exact path="/RecipeList" element={<RecipeList />}/>
             </Switch>
           </div>
         </BrowserRouter>
       </div>
       Welcome, <AccountCircleIcon/> {currentUser?.name}!
       <Button onClick={() => handleLogout()}>Log Out</Button>
-      <Box gridColumn="span 3">  
+      {/* <Box gridColumn="span 3">  
         {editmode 
           ? <div> 
               <UserEditForm currentUser={currentUser} handleLogin={handleLogin}/> <Button onClick={() => setEditmode(false)}> <CancelIcon/> </Button>
@@ -98,7 +104,7 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
         </div >
         <RecipeList recipes={recipes}/>
         <IngredientList ingredients={currentUser.ingredients}/> 
-      </Box>
+      </Box> */}
     </div>
   );
 }
