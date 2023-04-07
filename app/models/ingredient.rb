@@ -6,6 +6,4 @@ class Ingredient < ApplicationRecord
     has_many :users, through: :user_ingredients
 
     validates :name, presence: true
-    validates :name, uniqueness: true
-
 end

@@ -1,7 +1,7 @@
 class RecipesController < ApplicationController
 
     def index
-        if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/ingredients
+        if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/recipes
             user = User.find_by!(id: params[:user_id])
             render json: user.recipes
         else
@@ -17,7 +17,9 @@ class RecipesController < ApplicationController
 
     def create
         recipe = Recipe.create(recipe_params)
-        if recipe.valid? 
+        if recipe.valid?
+            ingredients = params[:ingredients].map{ |id| Ingredient.find(id) }
+            ingredients.each { |ingredient| recipe.ingredients << ingredient }
             render json: recipe, status: :created
         else
             render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity

@@ -11,6 +11,7 @@ const [description, setDescription] = useState("")
 const [instructions, setInstructions] = useState("")
 const [selectedIngredients, setSelectedIngredients] = useState([])
 const [response, setResponse] = useState([])
+const [ingredientName, setIngredientName] = useState('')
 
 
 const handleSubmit = (event) => {
@@ -24,7 +25,8 @@ const handleSubmit = (event) => {
             name: name,
             description: description,
             instructions: instructions,
-            user_id: currentUser.id
+            user_id: currentUser.id,
+            ingredients: selectedIngredients
         })
     })
     .then(response => { 
@@ -37,6 +39,27 @@ const handleSubmit = (event) => {
             response.json().then(data => setResponse(data.errors))
         }
     })
+  }
+
+  const handleNewIngredient = (e) => {
+    e.preventDefault();
+    fetch(`/users/${currentUser.id}/ingredients`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: ingredientName
+        })
+    })
+    .then(response => response.json())
+        .then(data => {
+            if (data.errors){
+                setResponse(data.errors)
+            } else{
+                addToUserIngredients(data)
+            }
+        })
   }
 
   const handleCheckbox = (e) => {
@@ -86,15 +109,21 @@ const handleSubmit = (event) => {
                     </div>
                     <Button type="submit">Create New Recipe</Button>
                 </form>
-                <form>
+                <form onSubmit={(e) => handleNewIngredient(e)}>
                     <div id='ingredient-list'>
-                    <Box sx={{ display: 'flex', gap: 3 }}>
-                        {ingredients.map((ingredient, i) => <Checkbox key={i} value={ingredient.id} label={ingredient.name} variant="soft" onChange={(e) => handleCheckbox(e)} />)}
-                    </Box>
-                        <p>This will be a scrollable div where we will map all user-ingredients over a MUI Checkbox component</p>
-                        <p>The selected ingredients will be saved as recipe-ingredient join records</p>
-                        <p>Have a textfield at the bottom that allows the user to submit a post request to create new user-ingredients</p>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                            {ingredients.map((ingredient, i) => <Checkbox key={i} value={ingredient.id} label={ingredient.name} variant="soft" onChange={(e) => handleCheckbox(e)} />)}
+                        </Box>
+                        <TextField
+                            sx={{ marginTop: '10px' }}
+                            onChange={(e) => setIngredientName(e.target.value)}
+                            id="outlined-basic"
+                            label="Ingredient Name"
+                            variant="outlined"
+                            size="small"
+                        />
                     </div>
+                    <Button type="submit">Add Ingredient</Button>
                 </form>
             </div>
             {response.map((message, i) => <Typography key={i}>{ message }</Typography>)}

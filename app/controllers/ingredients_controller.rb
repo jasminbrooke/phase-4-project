@@ -16,8 +16,23 @@ class IngredientsController < ApplicationController
     end
 
     def create
-        ingredient = Ingredient.create(ingredient_params)
-        render json: ingredient
+        if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/ingredients
+            user = User.find_by!(id: params[:user_id])
+            ingredient = Ingredient.create(ingredient_params)
+            if ingredient.valid?
+                user.ingredients << ingredient
+                render json: ingredient
+            else
+                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+            end
+        else
+            ingredient = Ingredient.create(ingredient_params)
+            if ingredient.valid?
+                render json: ingredient
+            else
+                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+            end
+        end
     end
 
     def update
@@ -40,8 +55,8 @@ class IngredientsController < ApplicationController
 
     private
 
-    def user_params
-        params.require(:ingredient).permit(:name)
+    def ingredient_params
+        params.permit(:name)
     end
     
 end

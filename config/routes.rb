@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :ingredients, only: %i[create show index update destroy]
   resources :recipes, only: %i[create show index update destroy]
   resources :users, only: %i[index update destroy] do
-    resources :ingredients, only: %i[index]
+    resources :ingredients, only: %i[index create]
     resources :recipes, only: %i[index]
   end
   # Routing logic: fallback requests for React Router.
