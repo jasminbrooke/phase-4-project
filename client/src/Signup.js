@@ -37,8 +37,6 @@ const Signup = ({ handleLogin }) => {
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
         <TextField
-            //  error={errors.productname}
-            // helperText={errors.productname}
             onChange={(e) => setName(e.target.value)}
             id="outlined-basic"
             label="Name"
@@ -46,8 +44,6 @@ const Signup = ({ handleLogin }) => {
             size="small"
         />
         <TextField
-            //  error={errors.productname}
-            // helperText={errors.productname}
             onChange={(e) => setUsername(e.target.value)}
             id="outlined-basic"
             label="Username"
@@ -55,8 +51,6 @@ const Signup = ({ handleLogin }) => {
             size="small"
         />
         <TextField
-            //  error={errors.productname}
-            // helperText={errors.productname}
             onChange={(e) => setPassword(e.target.value)}
             id="outlined-basic"
             label="Password"
@@ -64,8 +58,6 @@ const Signup = ({ handleLogin }) => {
             size="small"
         />
         <TextField
-            //  error={errors.productname}
-            // helperText={errors.productname}
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             id="outlined-basic"
             label="Password Confirmation"

@@ -30,6 +30,9 @@ code {
   width: 100%;
   justify-content: center;
   display: flex;
+  overflow: scroll;
+  padding: 24px;
+  max-height: 60vh;
 }
 
 .nav-component form {

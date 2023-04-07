@@ -16,54 +16,40 @@ import { renderMatches } from 'react-router-dom';
 
 const RecipeCard = ({ recipe }) => {
 
+  const {description, instructions, name, ingredients} = recipe
+  const [expanded, setExpanded] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
 
-
-//     return (
-//         <Box gridColumn="span 3">
-//             <Card >
-//                 <p>{recipe.name}</p>
-//                 {recipe.description}
-//             </Card>
-//         </Box>
-//     )
-// }
-
-
-const {description, instructions, name} = recipe
-const [expanded, setExpanded] = useState(false);
-const [anchorEl, setAnchorEl] = useState(null)
-const open = Boolean(anchorEl)
-
-const handleCardMenu = (event) => {
+  const handleCardMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
     
   const handleExpandClick = () => {
+    console.log(recipe)
     setExpanded(!expanded);
   };
 
-const ExpandMore = styled((props) => {
+  const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
 
-
-
-return (
+  return (
     <Box gridColumn="span 3">
-
       <Card style={{"float": "left"}} sx={{ maxWidth: 345, minWidth: 275 }}>
         <CardHeader
-            title={name}
+          title={name}
           action={
             <IconButton onClick={handleCardMenu}
             aria-label="settings">
@@ -90,6 +76,10 @@ return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             {instructions}
+            <br/>
+            <hr></hr>
+            Ingredients:
+            {ingredients.map(ing => <p>#{ing.name}</p>)}
           </CardContent>
         </Collapse>
       </Card>
