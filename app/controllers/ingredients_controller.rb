@@ -37,19 +37,29 @@ class IngredientsController < ApplicationController
 
     def update
         ingredient = Ingredient.find_by!(id: params[:id])
-        if ingredient.update(ingredient_params)
-            render json: ingredient 
+        ingredient_user_ids = ingredient.users.map(&:id)
+        if ingredient_user_ids.include?(session[:user_id])
+            if ingredient.update(ingredient_params)
+                render json: ingredient 
+            else
+                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+            end
         else
-            render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+            render json: { errors: ["Unauthorized"] }, status: :unauthorized
         end
     end
 
     def destroy
         ingredient = Ingredient.find_by!(id: params[:id])
-        if ingredient.destroy
-            render json: { message: "Ingredient deleted successfully" }, status: :no_content
+        ingredient_user_ids = ingredient.users.map(&:id)
+        if ingredient_user_ids.include?(session[:user_id])
+            if ingredient.destroy
+                render json: { message: "Ingredient deleted successfully" }, status: :no_content
+            else
+                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+            end
         else
-            render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+            render json: { errors: ["Unauthorized"] }, status: :unauthorized
         end
     end
 

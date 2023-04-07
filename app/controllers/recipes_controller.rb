@@ -28,20 +28,28 @@ class RecipesController < ApplicationController
 
     def update
         recipe = Recipe.find_by!(id: params[:id])
-        if recipe.update(recipe_params)
-            render json: recipe
+        if recipe.user.id == session[:user_id]
+            if recipe.update(recipe_params)
+                render json: recipe
+            else
+                render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity
+            end
         else
-            render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity
+            render json: { errors: ["Unauthorized"] }, status: :unauthorized
         end
     end
 
     def destroy
         recipe = Recipe.find_by!(id: params[:id])
+        if recipe.user.id == session[:user_id]
             if recipe.destroy
                 render json: { message: "Recipe deleted successfully" }, status: :no_content
             else
                 render json: { error: recipe.errors.full_messages }, status: :unprocessable_entity
             end
+        else
+            render json: { errors: ["Unauthorized"] }, status: :unauthorized
+        end
     end
     
     private

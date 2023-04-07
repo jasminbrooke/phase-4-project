@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react'
-// import { Box, Button, TextField } from '@mui/material';
-// import Card from '@mui/material/Card';
-// import CardContent from '@mui/material/CardContent';
-// import Typography from '@mui/material/Typography';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Typography from '@mui/material/Typography';
 import Login from './Login'
 import Signup from './Signup'
 import UserHome from './UserHome'
@@ -40,10 +36,11 @@ const handleLogout = () => {
             />
     } else {
       return (
-        <>
+        <div>
+          <Typography variant="h4">Log In or Sign Up!</Typography>
           <Login handleLogin={handleLogin} />
           <Signup handleLogin={handleLogin} />
-        </>
+        </div>
       )
     }
   })
@@ -51,7 +48,6 @@ const handleLogout = () => {
   return (
     <div>
       <div className="App">
-        {/* {renderUsers()} */}
         {renderPage()}
       </div>
     </div>

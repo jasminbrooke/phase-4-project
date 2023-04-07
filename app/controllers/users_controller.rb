@@ -24,21 +24,29 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = User.find_by!(id: params[:id])
-    if user.update(user_params)
-      render json: user
+    if params[:id] == session[:user_id]
+      user = User.find_by!(id: params[:id])
+      if user.update(user_params)
+        render json: user
+      else
+        # session.delete(:user_id) # Unset user_id if user fails to save
+        render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      session.delete(:user_id) # Unset user_id if user fails to save
-      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: ["Unauthorized"] }, status: :unauthorized
     end
   end
 
   def destroy
-    user = User.find_by!(id: params[:id])
-    if user.destroy
-      render json: { message: "User deleted successfully" }, status: :no_content
+    if params[:id] == session[:user_id]
+      user = User.find_by!(id: params[:id])
+      if user.destroy
+        render json: { message: "User deleted successfully" }, status: :no_content
+      else
+        render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: { error: user.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: ["Unauthorized"] }, status: :unauthorized
     end
   end
 
