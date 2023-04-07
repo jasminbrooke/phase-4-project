@@ -3,34 +3,27 @@ import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { pink } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { renderMatches } from 'react-router-dom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, removeFromUserRecipes }) => {
 
   const {description, instructions, name, ingredients} = recipe
   const [expanded, setExpanded] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
 
-  const handleCardMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleDelete = () => {
+    fetch(`recipes/${recipe.id}`,{
+      method: 'DELETE'
+    })
+    .then(() => removeFromUserRecipes(recipe))
+  }
     
   const handleExpandClick = () => {
-    console.log(recipe)
     setExpanded(!expanded);
   };
 
@@ -51,12 +44,12 @@ const RecipeCard = ({ recipe }) => {
         <CardHeader
           title={name}
           action={
-            <IconButton onClick={handleCardMenu}
+            <IconButton
+            onClick={() => handleDelete()}
             aria-label="settings">
-              <MoreVertIcon />
+            <DeleteForeverIcon  />
             </IconButton>
           }
-          
         />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
@@ -79,7 +72,7 @@ const RecipeCard = ({ recipe }) => {
             <br/>
             <hr></hr>
             Ingredients:
-            {ingredients.map(ing => <p>#{ing.name}</p>)}
+            {ingredients.map((ing, i) => <p key={i}>#{ing.name}</p>)}
           </CardContent>
         </Collapse>
       </Card>

@@ -47,7 +47,7 @@ class IngredientsController < ApplicationController
     def destroy
         ingredient = Ingredient.find_by!(id: params[:id])
         if ingredient.destroy
-            render json: { message: "Ingredient deleted successfully" }, status: :deleted
+            render json: { message: "Ingredient deleted successfully" }, status: :no_content
         else
             render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
         end
