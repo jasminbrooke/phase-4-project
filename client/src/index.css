@@ -49,3 +49,16 @@ code {
   display: flex;
   justify-content: center;
 }
+
+#recipe-forms {
+  display: flex;
+  flex-direction: row;
+}
+
+#recipe-forms form { width: 50%; }
+
+#ingredient-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -21,9 +21,11 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
 
   const [editmode, setEditmode] = useState(false)
   const [recipes, setRecipes] = useState([])
+  const [ingredients, setIngredients] = useState([])
 
   useEffect(() => {
     setRecipes(currentUser.recipes)
+    setIngredients(currentUser.ingredients)
   }, [currentUser])
 
     // const confirmDelete = () => {
@@ -65,6 +67,7 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
     //     </div>
     // )
   const addToUserRecipes = (newRecipe) => setRecipes(prevState => [...prevState, newRecipe])
+  const addToUserIngredients = (newIngredient) => setIngredients(prevState => [...prevState, newIngredient])
     
   return (
     <div>
@@ -73,7 +76,13 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
           <NavBar />
           <div>
             <Switch>
-              <Route exact path="/NewRecipeForm" element={<NewRecipeForm currentUser={currentUser} addToUserRecipes={addToUserRecipes}/>}/>
+              <Route exact path="/NewRecipeForm" element={<NewRecipeForm
+                currentUser={currentUser}
+                ingredients={ingredients}
+                addToUserRecipes={addToUserRecipes}
+                addToUserIngredients={addToUserIngredients}
+                />}
+              />
             </Switch>
             <Switch>
               <Route exact path="/UserEditForm" element={<UserEditForm currentUser={currentUser} handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
