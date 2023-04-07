@@ -5,7 +5,6 @@ function IngredientList( { ingredients } ) {
 
     return (
         <div>
-            hi!
             {ingredients}
         </div>
     )

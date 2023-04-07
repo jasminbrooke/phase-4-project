@@ -41,6 +41,7 @@ const handleSubmit = (event) => {
 
   return (
     <div>
+        <Card sx={{ maxWidth: 250 }}>
       <form onSubmit={(e) => handleSubmit(e)}>
         <TextField
             //  error={errors.productname}
@@ -75,6 +76,7 @@ const handleSubmit = (event) => {
         <Button type="submit">Create New Recipe</Button>
       </form>
       {/* {errors.map((error, i) => <Typography key={i}>{ error }</Typography>)} */}
+      </Card>
     </div>
   )}
 

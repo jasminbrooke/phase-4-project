@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { BrowserRouter, Route, NavLink, Routes as Switch } from "react-router-dom";
+import NavBar from './NavBar'
 import { TextField, Alert, Button } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -38,16 +40,14 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
     //     )
     // }
     
-    const handleDelete = () => {
-        fetch(`/users/${currentUser.id}`, {
-            method: 'DELETE',
-        })
-        .then(() => handleLogout())
-    }
+  const handleDelete = () => {
+    fetch(`/users/${currentUser.id}`, {
+      method: 'DELETE',
+    })
+    .then(() => handleLogout())
+  }
 
-    const handleEditModeClick = () => {
-      setEditmode(true);
-    }
+  const handleEditModeClick = () => setEditmode(true);
 
 
     // return (
@@ -64,38 +64,43 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
     //         {/* <RecipeList /> */}
     //     </div>
     // )
-    const addToUserRecipes = (newRecipe) => setRecipes(prevState => [...prevState, newRecipe])
+  const addToUserRecipes = (newRecipe) => setRecipes(prevState => [...prevState, newRecipe])
     
-    return (
-      <div>
-        Welcome, <AccountCircleIcon/> {currentUser?.name}!
-        <Button onClick={() => handleLogout()}>Log Out</Button>
-        <Box gridColumn="span 3">
-              
-        {editmode 
-        ? <div> 
-          <UserEditForm currentUser={currentUser} handleLogin={handleLogin}/> <Button onClick={() => setEditmode(false)}> <CancelIcon/> </Button>
-          </div>
-        : <Button onClick={() => handleEditModeClick()}>Edit Profile</Button>
-        }
-
-            <div id='userHomeDiv'>
-            
-            <Button onClick={() => handleDelete()}>Delete Account</Button>
-          </div>
-
+  return (
+    <div>
+      <div id="navContainer">
+        <BrowserRouter>
+          <NavBar />
           <div>
-            <Card style={{"float": "left"}} sx={{ maxWidth: 345 }}>
-              Create New Recipe
-              <NewRecipeForm currentUser={currentUser} addToUserRecipes={addToUserRecipes} />
-            </Card>
-            </div >
-          <RecipeList recipes={recipes}/>
-          <IngredientList ingredients={currentUser.ingredients}/> 
-        </Box>
+            <Switch>
+              {/* <Route exact path="/login" element={<Login />}/> */}
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </div>
+      Welcome, <AccountCircleIcon/> {currentUser?.name}!
+      <Button onClick={() => handleLogout()}>Log Out</Button>
+      <Box gridColumn="span 3">  
+        {editmode 
+          ? <div> 
+              <UserEditForm currentUser={currentUser} handleLogin={handleLogin}/> <Button onClick={() => setEditmode(false)}> <CancelIcon/> </Button>
+            </div>
+          : <Button onClick={() => handleEditModeClick()}>Edit Profile</Button>
+        }
+        <div id='userHomeDiv'>
+          <Button onClick={() => handleDelete()}>Delete Account</Button>
         </div>
-      );
-      
+        <div>
+          <Card style={{"float": "left"}} sx={{ maxWidth: 345 }}>
+            Create New Recipe
+            <NewRecipeForm currentUser={currentUser} addToUserRecipes={addToUserRecipes} />
+          </Card>
+        </div >
+        <RecipeList recipes={recipes}/>
+        <IngredientList ingredients={currentUser.ingredients}/> 
+      </Box>
+    </div>
+  );
 }
 
 
