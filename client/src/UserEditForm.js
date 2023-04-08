@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext  } from 'react'
+import { UserContext } from "./App";
 import { TextField, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 
 
-const UserEditForm = ({ currentUser, handleLogin, handleDelete }) => {
+const UserEditForm = ({ handleLogin, handleDelete }) => {
+  const currentUser = useContext(UserContext)
   const [name, setName] = useState(currentUser.name);
   const [username, setUsername] = useState(currentUser.username);
   const [errors, setErrors] = useState([])

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Route, NavLink, Routes as Switch } from "react-router-dom";
+import React, { useEffect, useState, useContext  } from 'react'
+import { UserContext } from "./App";
+import { BrowserRouter, Route, Routes as Switch } from "react-router-dom";
 import NavBar from './NavBar'
 import { Button } from '@mui/material';
 import RecipeList from './RecipeList';
@@ -7,11 +8,11 @@ import UserEditForm from './UserEditForm'
 import NewRecipeForm from './NewRecipeForm';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-
-const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
+const UserHome = ({ handleLogin, handleLogout }) => {
 
   const [recipes, setRecipes] = useState([])
   const [ingredients, setIngredients] = useState([])
+  const currentUser = useContext(UserContext)
 
   useEffect(() => {
     setRecipes(currentUser.recipes)
@@ -45,7 +46,7 @@ const UserHome = ({ currentUser, handleLogin, handleLogout }) => {
               />
             </Switch>
             <Switch>
-              <Route exact path="/users/:id" element={<UserEditForm currentUser={currentUser} handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
+              <Route exact path="/users/:id" element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
             </Switch>
             <Switch>
               <Route exact path="/users/:user_id/recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
