@@ -72,7 +72,7 @@ const RecipeCard = ({ recipe, removeFromUserRecipes }) => {
             <br/>
             <hr></hr>
             Ingredients:
-            {ingredients.map((ing, i) => <p key={i}>#{ing.name}</p>)}
+            {ingredients?.map((ing, i) => <p key={i}>#{ing.name}</p>)}
           </CardContent>
         </Collapse>
       </Card>

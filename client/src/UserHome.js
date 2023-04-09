@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext  } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { UserContext } from "./App";
 import { BrowserRouter, Route, Routes as Switch } from "react-router-dom";
 import NavBar from './NavBar'
@@ -46,10 +46,10 @@ const UserHome = ({ handleLogin, handleLogout }) => {
               />
             </Switch>
             <Switch>
-              <Route exact path="/users/:id" element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
+              <Route exact path={`/users/${currentUser.id}`} element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
             </Switch>
             <Switch>
-              <Route exact path="/users/:user_id/recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
+              <Route exact path={`/users/${currentUser.id}/recipes`} element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
             </Switch>
           </div>
         </BrowserRouter>
