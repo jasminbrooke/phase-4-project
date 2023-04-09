@@ -41,6 +41,7 @@ function App() {
     } else {
       return (
         <div>
+          <Typography variant="h4">MyRecipes</Typography>
           <Typography variant="h4">Log In or Sign Up!</Typography>
           <Login handleLogin={handleLogin} />
           <Signup handleLogin={handleLogin} />
