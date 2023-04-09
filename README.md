@@ -1,34 +1,15 @@
-Recipe Sharing App
+Recipe Creation App
 
-Models:
-Recipes
-Users
-Ingredients
+This app is a SAP created using Rails and React for the purpose of storing recipes along with associated ingredients and displaying them in simple cards. 
 
-Relationships: 
-Recipes has_many Ingredients
-Recipes belong_to Users
-Users has_many recipes
-Users has_many Ingredients through Recipes
-Ingredients has_many Recipes
-Ingredients has_many Users through Recipes
+The Recipe App has the following features:
 
-Joins
-Recipe_Ingredients- recipe_id, ingredient_id
-User_ingredients
+    Secure authentication: Users can sign up with a secure password and log in to their account. Secured by BCrypt.
 
-Routes
-session - login, logout
-User - create, show, update, delete
-Recipe  - create, index, show, update, delete
-Ingredients - create, index, show, update, delete
+    Account management: Users can create, use, edit their own account details or delete their account.
 
-Controllers
-session
-user
-ingredients
-recipe
+    Ingredient list: Users can create a list of ingredients to include in recipes.
 
-User
-Recipe
-Ingredients
+    Recipe creation: Users can create recipes using their ingredient list, and add a name, description, and instructions for each recipe.
+
+    Recipe management: Users can view and delete their own recipes.

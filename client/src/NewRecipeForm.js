@@ -75,7 +75,7 @@ const NewRecipeForm = ( { addToUserRecipes, ingredients, addToUserIngredients } 
 
     return (
         <div className='nav-component'>
-            <Card sx={{ width: 750 }}>
+            <Card sx={{ width: 800, height: 600 }}>
                 <div id='recipe-forms'>
                     <form onSubmit={(e) => handleSubmit(e)}>
                         <div id="recipe-fields">
@@ -91,22 +91,26 @@ const NewRecipeForm = ( { addToUserRecipes, ingredients, addToUserIngredients } 
                             </div>
                             <div className="user-edit-field">
                                 <TextField
-                                    defaultValue={instructions}
-                                    onChange={(e) => setInstructions(e.target.value)}
-                                    id="outlined-basic"
-                                    label="Instructions"
-                                    variant="outlined"
-                                    size="small"
-                                />
-                            </div>
-                            <div className="user-edit-field">
-                                <TextField
                                     defaultValue={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     id="outlined-basic"
                                     label="Description"
                                     variant="outlined"
-                                    size="small"
+                                    size="medium"
+                                    multiline
+                                    rows={4}
+                                />
+                            </div>
+                            <div className="user-edit-field">
+                                <TextField
+                                    defaultValue={instructions}
+                                    onChange={(e) => setInstructions(e.target.value)}
+                                    id="outlined-basic"
+                                    label="Instructions"
+                                    variant="outlined"
+                                    size="medium"
+                                    multiline
+                                    rows={10}
                                 />
                             </div>
                         </div>
