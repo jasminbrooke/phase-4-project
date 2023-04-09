@@ -23,7 +23,7 @@ class IngredientsController < ApplicationController
                 user.ingredients << ingredient
                 render json: ingredient
             else
-                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
+                render json: { errors: ingredient.errors.full_messages }, status: :unprocessable_entity
             end
         else
             ingredient = Ingredient.create(ingredient_params)

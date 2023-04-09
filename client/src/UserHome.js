@@ -37,7 +37,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
           <NavBar />
           <div>
             <Switch>
-              <Route exact path="/recipes" element={<NewRecipeForm
+              <Route exact path="/create_a_recipe" element={<NewRecipeForm
                 currentUser={currentUser}
                 ingredients={ingredients}
                 addToUserRecipes={addToUserRecipes}
@@ -46,10 +46,10 @@ const UserHome = ({ handleLogin, handleLogout }) => {
               />
             </Switch>
             <Switch>
-              <Route exact path={`/users/${currentUser.id}`} element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
+              <Route exact path="/manage_account" element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
             </Switch>
             <Switch>
-              <Route exact path={`/users/${currentUser.id}/recipes`} element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
+              <Route exact path="/recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
             </Switch>
           </div>
         </BrowserRouter>

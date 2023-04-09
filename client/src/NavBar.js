@@ -10,9 +10,9 @@ const NavBar = () => {
     return (
         <AppBar>
             <Toolbar id='navbar'>
-                <NavLink to={`/users/${currentUser.id}/recipes`}>View My Recipes</NavLink>
-                <NavLink to={`/users/${currentUser.id}`}>Manage Account</NavLink>
-                <NavLink to="/recipes">Create a Recipe</NavLink>
+                <NavLink to="/recipes">View My Recipes</NavLink>
+                <NavLink to="/manage_account">Manage Account</NavLink>
+                <NavLink to="/create_a_recipe">Create a Recipe</NavLink>
             </Toolbar>
         </AppBar>
     );

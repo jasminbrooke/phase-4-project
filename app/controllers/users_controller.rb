@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:id] == session[:user_id]
+    if params[:id] == session[:user_id].to_s
       user = User.find_by!(id: params[:id])
       if user.update(user_params)
         render json: user
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    if params[:id] == session[:user_id]
+    if params[:id] == session[:user_id].to_s
       user = User.find_by!(id: params[:id])
       if user.destroy
         render json: { message: "User deleted successfully" }, status: :no_content

@@ -30,9 +30,11 @@ code {
   width: 100%;
   justify-content: center;
   display: flex;
+  flex-direction: column;
   overflow: scroll;
   padding: 24px;
   max-height: 60vh;
+  align-items: center;
 }
 
 .nav-component form {
@@ -64,4 +66,14 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login > * {
+  margin: 30px 0;
 }
