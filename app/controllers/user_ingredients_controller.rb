@@ -1,8 +1,8 @@
 class UserIngredientsController < ApplicationController
 
     def index
-        user_ingredients = UserIngredient.where(user_id: session[:user_id]) 
-        render json: user_ingredients
+        user_ingredients = UserIngredient.where(user_id: session[:user_id])
+        render json: user_ingredients, include: :ingredient
     end
 
     def update_or_create

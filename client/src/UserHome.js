@@ -7,6 +7,7 @@ import RecipeList from './RecipeList';
 import UserEditForm from './UserEditForm'
 import NewRecipeForm from './NewRecipeForm';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import IngredientList from './IngredientList';
 
 const UserHome = ({ handleLogin, handleLogout }) => {
 
@@ -46,7 +47,10 @@ const UserHome = ({ handleLogin, handleLogout }) => {
               <Route exact path="/manage_account" element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
             </Switch>
             <Switch>
-              <Route exact path="/recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
+              <Route exact path="/my_recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
+            </Switch>
+            <Switch>
+              <Route exact path="/my_pantry" element={<IngredientList />}/>
             </Switch>
           </div>
         </BrowserRouter>

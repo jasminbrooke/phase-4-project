@@ -70,7 +70,6 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
     }
 
     const handleIngredientNotes = (modalIngredient) => {
-        debugger
         fetch('/update_or_create', {
             method: 'POST',
             headers: {
