@@ -1,11 +1,4 @@
 puts "seeding..."
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
 
 # =================== users
 # ========================================================
@@ -13,68 +6,187 @@ puts "seeding..."
 # User.create([
 #     {name: 'Joe', username: 'Joe1', password_digest: BCrypt::Password.create('123')},
 #     {name:'Richard', username: 'RichieRich', password_digest: BCrypt::Password.create('123')},
-#     {name: 'Nixie', username: 'Nixinator', password_digest: BCrypt::Password.create('pupper')}
+#     {name: 'Nixie', username: 'Nixinator', password_digest: BCrypt::Password.create('123')}
 # ])
-# Ingredient.create([{name:'Pasta'}, {name:'Sauce'}, {name: 'Garlic}'}])
 
-# # ==================== recipes
-# # ========================================================
+# ingredient_names = [
+#     "All-purpose flour",
+#     "Almonds",
+#     "Apples",
+#     "Asparagus",
+#     "Avocado",
+#     "Bacon",
+#     "Baking powder",
+#     "Baking soda",
+#     "Banana",
+#     "Basil",
+#     "Bay leaves",
+#     "Beans",
+#     "Beef",
+#     "Bell peppers",
+#     "Bread",
+#     "Brown rice",
+#     "Brown sugar",
+#     "Butter",
+#     "Cabbage",
+#     "Carrots",
+#     "Cauliflower",
+#     "Celery",
+#     "Cheese",
+#     "Chicken",
+#     "Chickpeas",
+#     "Chili powder",
+#     "Chocolate Chips",
+#     "Cinnamon",
+#     "Cocoa powder",
+#     "Coconut milk",
+#     "Coconut oil",
+#     "Coffee",
+#     "Corn",
+#     "Cornmeal",
+#     "Cottage cheese",
+#     "Cumin",
+#     "Eggplant",
+#     "Eggs",
+#     "Flax seeds",
+#     "Garlic",
+#     "Ginger",
+#     "Green beans",
+#     "Green onions",
+#     "Ground beef",
+#     "Ground turkey",
+#     "Honey",
+#     "Jalapenos",
+#     "Jelly",
+#     "Kale",
+#     "Lemons",
+#     "Lentils",
+#     "Lettuce",
+#     "Lime juice",
+#     "Margarine",
+#     "Milk",
+#     "Mushrooms",
+#     "Mustard",
+#     "Oats",
+#     "Olive oil",
+#     "Onions",
+#     "Oranges",
+#     "Paprika",
+#     "Parmesan cheese",
+#     "Parsley",
+#     "Pasta",
+#     "Peanut butter",
+#     "Peas",
+#     "Pecans",
+#     "Pepper",
+#     "Pineapple",
+#     "Pistachios",
+#     "Pork",
+#     "Potatoes",
+#     "Pumpkin",
+#     "Quinoa",
+#     "Raisins",
+#     "Red pepper flakes",
+#     "Red wine vinegar",
+#     "Rice",
+#     "Rosemary",
+#     "Sage",
+#     "Salmon",
+#     "Salt",
+#     "Sausage",
+#     "Scallions",
+#     "Sesame oil",
+#     "Sesame seeds",
+#     "Shrimp",
+#     "Soy sauce",
+#     "Spinach",
+#     "Squash",
+#     "Strawberries",
+#     "Sugar",
+#     "Sunflower seeds",
+#     "Sweet potatoes",
+#     "Tarragon",
+#     "Thyme",
+#     "Tomatoes",
+#     "Tuna",
+#     "Turmeric",
+#     "Vanilla extract",
+#     "Vegetable oil",
+#     "Walnuts",
+#     "Water chestnuts",
+#     "White wine vinegar",
+#     "Whole wheat flour",
+#     "Worcestershire sauce",
+#     "Yogurt",
+#     "Zucchini"
+#   ]
+  
+# ingredient_names.each do |name|
+#     Ingredient.create(name: name)
+#   end
+
+# # # ==================== recipes
+# # # ========================================================
 
 # Recipe.create([
-#   {
-#     name: "Spaghetti Bolognese",
-#     description: "A classic Italian pasta dish featuring a rich meaty sauce",
-#     instructions: "1. Heat olive oil in a large skillet over medium heat. Add chopped onion, garlic and carrot and cook for about 5 minutes, until softened.
-# 2. Add ground beef to the skillet and cook until browned, stirring frequently to break up any lumps.
-# 3. Add canned tomatoes, tomato paste, and beef broth to the skillet. Stir well to combine and bring the sauce to a simmer.
-# 4. Reduce the heat to low and let the sauce simmer for about 45 minutes, stirring occasionally.
-# 5. While the sauce is cooking, bring a large pot of salted water to a boil. Add spaghetti and cook for 8-10 minutes, until al dente.
-# 6. Drain the pasta and serve topped with the Bolognese sauce and freshly grated Parmesan cheese.",
-#     user_id: User.first.id
-#   },
-#   {
-#     name: "Roast Chicken",
-#     description: "A classic Sunday dinner featuring juicy roasted chicken with crispy skin",
-#     instructions: "1. Preheat the oven to 425 degrees F (220 degrees C).
-# 2. Rinse the chicken inside and out with cold water and pat dry with paper towels.
-# 3. Season the chicken generously with salt, pepper and any other herbs or spices you like.
-# 4. Place the chicken in a roasting pan and roast for about 1 1/2 hours, until the juices run clear when the thigh is pierced with a fork.
-# 5. Let the chicken rest for 10 minutes before carving and serving.",
-#     user_id: User.first.id
-#   },
-#   {
-#     name: "Chocolate Cake",
-#     description: "A rich and decadent chocolate cake that's perfect for any occasion",
-#     instructions: "1. Preheat the oven to 350 degrees F (175 degrees C).
-# 2. Grease and flour a 9-inch round cake pan.
-# 3. In a large mixing bowl, cream together butter and sugar until light and fluffy.
-# 4. Beat in eggs, one at a time.
-# 5. In a separate bowl, whisk together flour, cocoa powder, baking powder, and baking soda.
-# 6. Gradually add the dry ingredients to the wet mixture, alternating with milk and mixing well after each addition.
-# 7. Pour the batter into the prepared cake pan and bake for about 30 minutes, until a toothpick inserted in the center comes out clean.
-# 8. Allow the cake to cool before frosting with your favorite frosting recipe.",
-# user_id: User.second.id
-#   },
-#   {
-#     name: "Tomato and Basil Pasta",
-#     description: "A simple yet flavorful pasta dish with fresh tomatoes, fragrant basil, and grated Parmesan cheese.",
-#     instructions: "1. Cook 8 oz. of your favorite pasta according to package instructions.
-#   2. While the pasta is cooking, heat 2 tbsp of olive oil in a skillet over medium heat.
-#   3. Add 2 cloves of minced garlic and cook for 1-2 minutes, stirring occasionally, until fragrant.
-#   4. Add 2 cups of diced fresh tomatoes and 1/4 cup of chopped fresh basil to the skillet. Cook for 5-7 minutes, stirring occasionally, until the tomatoes have broken down and released their juices.
-#   5. Season the tomato mixture with salt and black pepper to taste.
-#   6. Drain the pasta and add it to the skillet with the tomato mixture. Toss everything together until the pasta is coated in the sauce.
-#   7. Serve the pasta hot, topped with grated Parmesan cheese if desired.",
-#   user_id: User.second.id
-#   },
-#   {
-#     name:'Pupcup',
-#     description: "A delicous cup for a pup!",
-#     instructions: "Dispense some whipped cream into a cup.",
-#     user_id: User.third.id
-#   }
+#     {
+#         name: "Scrambled Eggs",
+#         description: "A classic breakfast dish that's quick and easy to make.",
+#         ingredients: [
+#             Ingredient.find_by(name: 'Eggs'),
+#             Ingredient.find_by(name: 'Milk'),
+#             Ingredient.find_by(name: 'Butter'),
+#             Ingredient.find_by(name: 'Salt'),
+#             Ingredient.find_by(name: 'Pepper')
+#         ],
+#         instructions: "Crack the eggs into a bowl and whisk together with milk, salt, and pepper. Melt butter in a non-stick skillet over medium heat. Add the egg mixture to the skillet and stir constantly until the eggs are cooked through and no longer runny. Serve hot and enjoy!",
+#         user_id: User.third.id
+#     },
+#     {
+#         name: "Banana Strawberry Smoothie",
+#         description: "A delicious and healthy smoothie that's perfect for breakfast or as a mid-day snack.",
+#         ingredients: [
+#             Ingredient.find_by(name: "Strawberries"),
+#             Ingredient.find_by(name: "Banana"),
+#             Ingredient.find_by(name: "Milk"),
+#             Ingredient.find_by(name: "Honey")
+#         ],
+#         instructions: "Combine the frozen strawberries, banana, milk, and honey in a blender. Blend until smooth and creamy. Pour into a glass and enjoy!",
+#         user_id: User.third.id
+#     },
+#     {
+#         name: "Chocolate Covered Strawberries",
+#         description: "An elegant and easy dessert that's perfect for special occasions.",
+#         ingredients: [
+#             Ingredient.find_by(name: "Strawberries"),
+#             Ingredient.find_by(name: "Chocolate Chips")
+#         ],
+#         instructions:"Melt the chocolate chips in a double boiler or in the microwave, stirring until smooth. Dip the strawberries into the chocolate, letting any excess drip off. Place the strawberries on a parchment-lined baking sheet and chill in the refrigerator until the chocolate is set. Enjoy!",
+#         user_id: User.third.id
+#     },
+#     {
+#         name: "Avocado Toast",
+#         description: "A simple and delicious breakfast or snack that's packed with healthy fats.",
+#         ingredients: [
+#             Ingredient.find_by(name: "Bread"),
+#             Ingredient.find_by(name: "Avocado"),
+#             Ingredient.find_by(name: "Salt"),
+#             Ingredient.find_by(name: "Pepper"),
+#         ],
+#         instructions: "Mash the avocado with a fork and spread it onto the slice of bread. Sprinkle with salt and pepper to taste. Optionally, add some toppings for extra flavor. Enjoy!",
+#         user_id: User.third.id
+#     },
+#     {
+#         name: "Peanut Butter and Jelly Sandwich",
+#         description: "A classic sandwich that's perfect for a quick and easy meal or snack.",
+#         ingredients: [
+#             Ingredient.find_by(name: "Bread"),
+#             Ingredient.find_by(name: "Peanut butter"),
+#             Ingredient.find_by(name: "Jelly")
+#         ],
+#         instructions: "Spread peanut butter on one slice of bread and jelly on the other. Place the two slices together with the peanut butter and jelly sides facing each other. Cut the sandwich in half, if desired. Enjoy!",
+#         user_id: User.third.id
+#     }
 # ])
-
-# UserRecipe.create(user_id: User.third.id, recipe_id: Recipe.last.id)
 
 puts "seeded"

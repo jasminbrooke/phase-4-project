@@ -1,12 +1,18 @@
-import React, { useState, useContext  } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { UserContext } from "./App";
 import { TextField, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Box from '@mui/joy/Box';
 import Checkbox from '@mui/joy/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import SaveIcon from '@mui/icons-material/Save';
+import AddIcon from '@mui/icons-material/Add';
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import ModalDialog from '@mui/joy/ModalDialog';
 
-const NewRecipeForm = ( { addToUserRecipes, ingredients, addToUserIngredients } ) => {
+const NewRecipeForm = ( { addToUserRecipes } ) => {
 
     const currentUser = useContext(UserContext)
     const [name, setName] = useState("")
@@ -15,7 +21,26 @@ const NewRecipeForm = ( { addToUserRecipes, ingredients, addToUserIngredients } 
     const [selectedIngredients, setSelectedIngredients] = useState([])
     const [response, setResponse] = useState([])
     const [ingredientName, setIngredientName] = useState('')
+    const [ingredientList, setIngredientList] = useState([])
+    const [ingredientNotes, setIngredientNotes] = useState('')
+    const [openModal, setOpenModal] = useState(false)
+    const [modalIngredient, setModalIngredient] = useState(null)
 
+    const addToUserIngredients = (newIngredient) => setIngredientList(prevState => [...prevState, newIngredient])
+
+    useEffect(() => {
+        getIngredients();
+        setIngredientNotes(ingredientList.map(ingredient => {
+            const key = ingredient.id
+            return { key: ''}
+        }))
+    }, [])
+
+    const getIngredients = () => {
+        fetch('/ingredients')
+        .then(response => response.json())
+        .then(data => setIngredientList(data))
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -44,25 +69,51 @@ const NewRecipeForm = ( { addToUserRecipes, ingredients, addToUserIngredients } 
         })
     }
 
-    const handleNewIngredient = (e) => {
-    e.preventDefault();
-    fetch(`/users/${currentUser.id}/ingredients`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            name: ingredientName
+    const handleIngredientNotes = (modalIngredient) => {
+        debugger
+        fetch('/update_or_create', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                user_id: currentUser.id,
+                ingredient_id: modalIngredient.id,
+                note: ingredientNotes
+            })
         })
-    })
-    .then(response => response.json())
+        .then(response => response.json())
         .then(data => {
-            if (data.errors){
-                setResponse(data.errors)
-            } else{
-                addToUserIngredients(data)
+            if (data.errors) {
+                setResponse("Couldn't save ingredient note")
             }
+            setOpenModal(false)
+            setIngredientNotes(null)
         })
+    }
+
+    const updateIngredientNotes = (data) => setIngredientNotes(data)
+        // Instead, make the texfields only pop up on a button click - you can only add a note for one ingredient at a time. That ingredient note field will have a simple piece of state
+
+    const handleNewIngredient = (e) => {
+        e.preventDefault();
+        fetch(`/users/${currentUser.id}/ingredients`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: ingredientName
+            })
+        })
+        .then(response => response.json())
+            .then(data => {
+                if (data.errors){
+                    setResponse(data.errors)
+                } else{
+                    addToUserIngredients(data)
+                }
+            })
     }
 
     const handleCheckbox = (e) => {
@@ -73,8 +124,39 @@ const NewRecipeForm = ( { addToUserRecipes, ingredients, addToUserIngredients } 
         }
     }
 
+    const handleModal = (ingredient) => {
+        setModalIngredient(ingredient)
+        setOpenModal(!openModal)
+    }
+
     return (
         <div className='nav-component'>
+            <Modal open={openModal} onClose={() => setOpenModal(false)}>
+                <ModalDialog
+                aria-labelledby="layout-modal-title"
+                aria-describedby="layout-modal-description"
+                >
+                    <ModalClose />
+                    <Typography id="layout-modal-title" component="h2">
+                        {modalIngredient?.name}
+                    </Typography>
+                    <div className="ingredient-form">
+                        <TextField
+                            onChange={(e) => updateIngredientNotes(e.target.value)}
+                            id="outlined-basic"
+                            label="Ingredient note"
+                            variant="outlined"
+                            size="small"
+                            sx={{ margin:'5px' }}
+                        />
+                        <IconButton
+                            onClick={(e) => handleIngredientNotes(modalIngredient)}
+                            aria-label="settings">
+                            <SaveIcon />
+                        </IconButton>
+                    </div>
+                </ModalDialog>
+            </Modal>
             <Card sx={{ width: 800, height: 600 }}>
                 <div id='recipe-forms'>
                     <form onSubmit={(e) => handleSubmit(e)}>
@@ -119,7 +201,21 @@ const NewRecipeForm = ( { addToUserRecipes, ingredients, addToUserIngredients } 
                     <form onSubmit={(e) => handleNewIngredient(e)}>
                         <div id='ingredient-list'>
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                                {ingredients.map((ingredient, i) => <Checkbox key={i} value={ingredient.id} label={ingredient.name} variant="soft" onChange={(e) => handleCheckbox(e)} />)}
+                                    {
+                                        ingredientList.map((ingredient, i) => {
+                                            return(
+                                                <div className="ingredient-form" key={i}>
+                                                        <Checkbox value={ingredient.id} label={ingredient.name} variant="soft" onChange={(e) => handleCheckbox(e)} />
+                                                        <IconButton
+                                                            value={ingredient.id}
+                                                            onClick={() => handleModal(ingredient)}
+                                                            aria-label="settings">
+                                                            <AddIcon />
+                                                        </IconButton>
+                                                </div>
+                                            )
+                                        })
+                                    }
                             </Box>
                             <TextField
                                 sx={{ marginTop: '10px' }}

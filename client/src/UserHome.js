@@ -11,12 +11,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const UserHome = ({ handleLogin, handleLogout }) => {
 
   const [recipes, setRecipes] = useState([])
-  const [ingredients, setIngredients] = useState([])
+
   const currentUser = useContext(UserContext)
 
   useEffect(() => {
     setRecipes(currentUser.recipes)
-    setIngredients(currentUser.ingredients)
   }, [currentUser])
     
   const handleDelete = () => {
@@ -27,7 +26,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
   }
 
   const addToUserRecipes = (newRecipe) => setRecipes(prevState => [...prevState, newRecipe])
-  const addToUserIngredients = (newIngredient) => setIngredients(prevState => [...prevState, newIngredient])
+  
   const removeFromUserRecipes = (recipe) =>  setRecipes(prevState => prevState.filter(r => r !== recipe))
     
   return (
@@ -39,9 +38,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
             <Switch>
               <Route exact path="/create_a_recipe" element={<NewRecipeForm
                 currentUser={currentUser}
-                ingredients={ingredients}
                 addToUserRecipes={addToUserRecipes}
-                addToUserIngredients={addToUserIngredients}
                 />}
               />
             </Switch>
