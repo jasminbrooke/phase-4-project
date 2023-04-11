@@ -15,7 +15,7 @@ const IngredientCard = ({ userIngredient }) => {
           title={ingredient.name}
         />
         <CardContent>
-            {note.split("| New Note: ").map((n, i) => <Typography key={i} variant="body2" color="text.secondary">{n}</Typography>)}
+            {note?.split("| New Note: ").map((n, i) => <Typography key={i} variant="body2" color="text.secondary">{n}</Typography>)}
         </CardContent>
       </Card>
     </Box>
