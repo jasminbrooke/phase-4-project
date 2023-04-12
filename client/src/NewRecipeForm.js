@@ -91,8 +91,6 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
         })        
     }
 
-    const updateIngredientQuantity = (data) => setIngredientQuantity(data)
-
     const handleNewIngredient = (e) => {
         e.preventDefault();
         fetch(`/ingredients`, {
@@ -192,8 +190,8 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
                         size="small"
                     />
                 </div>
-                <Button type="submit">Add Ingredient</Button>
-                <Button onClick={() => setIngredientsAdded(true)}>Done Adding Ingredients</Button>
+                <Button type="submit">Create New Ingredient</Button>
+                <Button onClick={() => setIngredientsAdded(true)}>Continue with Selected Ingredients</Button>
             </form>
         )
     }
@@ -236,7 +234,7 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
                         </Typography>
                         <div className="ingredient-form">
                             <TextField
-                                onChange={(e) => updateIngredientQuantity(e.target.value)}
+                                onChange={(e) => setIngredientQuantity(e.target.value)}
                                 id="outlined-basic"
                                 label="Ingredient quantity"
                                 variant="outlined"
