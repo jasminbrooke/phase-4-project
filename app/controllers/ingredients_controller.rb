@@ -1,65 +1,20 @@
 class IngredientsController < ApplicationController
-
     def index
-        if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/ingredients
-            user = User.find_by!(id: params[:user_id])
-            render json: user.ingredients
+        if params[:recipe_id] # if a recipe id was submitted, we're in a nested route /recipes/:recipe_id/ingredients
+            recipe = Recipe.find_by!(id: params[:recipe_id])
+            ingredients = recipe.ingredients
         else
             ingredients = Ingredient.all
-            render json: ingredients
         end
-    end
-
-    def show
-        ingredient = Ingredient.find_by!(id: params[:id])
-        render json: ingredient
+        render json: ingredients, include: :recipes
     end
 
     def create
-        if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/ingredients
-            user = User.find_by!(id: params[:user_id])
-            ingredient = Ingredient.create(ingredient_params)
-            if ingredient.valid?
-                user.ingredients << ingredient
-                render json: ingredient
-            else
-                render json: { errors: ingredient.errors.full_messages }, status: :unprocessable_entity
-            end
+        ingredient = Ingredient.create(ingredient_params)
+        if ingredient.valid?
+            render json: ingredient, status: :created
         else
-            ingredient = Ingredient.create(ingredient_params)
-            if ingredient.valid?
-                render json: ingredient
-            else
-                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
-            end
-        end
-    end
-
-    def update
-        ingredient = Ingredient.find_by!(id: params[:id])
-        ingredient_user_ids = ingredient.users.map(&:id)
-        if ingredient_user_ids.include?(session[:user_id])
-            if ingredient.update(ingredient_params)
-                render json: ingredient 
-            else
-                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
-            end
-        else
-            render json: { errors: ["Unauthorized"] }, status: :unauthorized
-        end
-    end
-
-    def destroy
-        ingredient = Ingredient.find_by!(id: params[:id])
-        ingredient_user_ids = ingredient.users.map(&:id)
-        if ingredient_user_ids.include?(session[:user_id])
-            if ingredient.destroy
-                render json: { message: "Ingredient deleted successfully" }, status: :no_content
-            else
-                render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
-            end
-        else
-            render json: { errors: ["Unauthorized"] }, status: :unauthorized
+            render json: { error: ingredient.errors.full_messages }, status: :unprocessable_entity
         end
     end
 
