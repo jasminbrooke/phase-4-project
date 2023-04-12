@@ -10,15 +10,13 @@ class RecipesController < ApplicationController
     end
 
     def create # creating user_recipes and recipe_ingredients
+        if params[:user_id] != session[:user_id] # if the user is not authorized to create a recipe for this user
+            render json: { errors: ["Unauthorized"]}, status: :unauthorized
+        end
         # params = {name: 'aaa', desciption: 'aaahh', instructions: '1. ahhh, 2. abhb', ingredients: [{id: 1, quantity: 'www'},{id: 12, quantity: 'www'}], }
-        user = user.find_by!(id: session[:user_id]) # find the user
+        user = User.find_by!(id: session[:user_id]) # find the user
         recipe = user.recipes.create(recipe_params) # create the recipe so that it belongs to the user
         if recipe.valid?
-            ingredients = params[:ingredients] # array of ids
-            ingredients.map do |ingredient_data| 
-                recipe.recipe_ingredients.create(ingredient_id: ingredient_data[:id], quantity: ingredient_data[:quantity])
-                # create the join record so it belongs to the recipe, and pass in the ingredient it belongs to, as well as the user-submitted quantity attribute
-            end
             render json: recipe, status: :created
         else
             render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity
@@ -61,7 +59,7 @@ class RecipesController < ApplicationController
     private
 
   def recipe_params
-    params.permit(:name, :description, :instructions)
+    params.permit(:name, :description, :instructions, :user_id)
   end
 
 end

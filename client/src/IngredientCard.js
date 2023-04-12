@@ -6,8 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 
-const IngredientCard = ({ userIngredient }) => {
-    const { note, ingredient } = userIngredient
+const IngredientCard = ({ ingredient }) => {
+    
   return (
     <Box gridColumn="span 3">
       <Card style={{"float": "left"}} sx={{ maxWidth: 345, minWidth: 275 }}>
@@ -15,7 +15,12 @@ const IngredientCard = ({ userIngredient }) => {
           title={ingredient.name}
         />
         <CardContent>
-            {note?.split("| New Note: ").map((n, i) => <Typography key={i} variant="body2" color="text.secondary">{n}</Typography>)}
+          <hr></hr>
+          Recipes:
+          <ul>
+            {ingredient.recipes?.map((recipe, i) => <li key={i}>{recipe.name}</li>)}
+
+          </ul>
         </CardContent>
       </Card>
     </Box>

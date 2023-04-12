@@ -13,7 +13,7 @@ const IngredientList = () => {
     return (
         <Box className='nav-component' display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
             {
-                ingredients?.map((ingredient, i)=> <IngredientCard userIngredient={ingredient} key={i}/>)
+                ingredients?.map((ingredient, i)=> <IngredientCard ingredient={ingredient} key={i}/>)
             }
         </Box>
     )

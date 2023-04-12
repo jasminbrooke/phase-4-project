@@ -26,7 +26,20 @@ const UserHome = ({ handleLogin, handleLogout }) => {
     .then(() => handleLogout())
   }
 
-  const addToUserRecipes = (newRecipe) => setRecipes(prevState => prevState.map(recipe => recipe.id === newRecipe.id ? newRecipe : recipe))
+  const addToUserRecipes = (newRecipe) => {
+    if(recipes.find(r => r.id === newRecipe.id)) {
+      const newRecipeArray = recipes.map(r => {
+        if (r.id === newRecipe.id) {
+          return newRecipe
+        } else {
+          return r
+        }
+      })
+      setRecipes(newRecipeArray)
+    } else{
+      setRecipes(prevState => [...prevState, newRecipe])
+    }
+  }
   const removeFromUserRecipes = (recipe) =>  setRecipes(prevState => prevState.filter(r => r !== recipe))
     
   return (
