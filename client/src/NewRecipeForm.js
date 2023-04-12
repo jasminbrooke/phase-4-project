@@ -15,14 +15,17 @@ import ModalDialog from '@mui/joy/ModalDialog';
 const NewRecipeForm = ( { addToUserRecipes } ) => {
 
     const currentUser = useContext(UserContext)
+    const [response, setResponse] = useState([])
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [instructions, setInstructions] = useState("")
+    const [createdRecipe, setCreatedRecipe] = useState(null)
+    const [ingredientsAdded, setIngredientsAdded] = useState(false)
+    
     const [selectedIngredients, setSelectedIngredients] = useState([])
-    const [response, setResponse] = useState([])
     const [ingredientName, setIngredientName] = useState('')
     const [ingredientList, setIngredientList] = useState([])
-    const [ingredientNotes, setIngredientNotes] = useState('')
+    const [ingredientQuantity, setIngredientQuantity] = useState('')
     const [openModal, setOpenModal] = useState(false)
     const [modalIngredient, setModalIngredient] = useState(null)
 
@@ -30,10 +33,6 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
 
     useEffect(() => {
         getIngredients();
-        setIngredientNotes(ingredientList.map(ingredient => {
-            const key = ingredient.id
-            return { key: ''}
-        }))
     }, [])
 
     const getIngredients = () => {
@@ -42,7 +41,7 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
         .then(data => setIngredientList(data))
     }
 
-    const handleSubmit = (event) => {
+    const handleCreateRecipe = (event) => {
         event.preventDefault();
         fetch('/recipes', {
             method: 'POST',
@@ -54,49 +53,49 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
                 description: description,
                 instructions: instructions,
                 user_id: currentUser.id,
-                ingredients: selectedIngredients
-            })
-        })
-        .then(response => { 
-            if (response.ok) {
-                response.json().then(data => {
-                    setResponse(["Recipe Successfully Created"])
-                    addToUserRecipes(data)
-                })
-            } else {
-                response.json().then(data => setResponse(data.errors))
-            }
-        })
-    }
-
-    const handleIngredientNotes = (modalIngredient) => {
-        fetch('/update_or_create', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                user_id: currentUser.id,
-                ingredient_id: modalIngredient.id,
-                note: ingredientNotes
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.errors) {
-                setResponse("Couldn't save ingredient note")
+                setResponse(data.errors)
+            } else {
+                addToUserRecipes(data)
+                setCreatedRecipe(data)
             }
-            setOpenModal(false)
-            setIngredientNotes(null)
         })
     }
 
-    const updateIngredientNotes = (data) => setIngredientNotes(data)
-        // Instead, make the texfields only pop up on a button click - you can only add a note for one ingredient at a time. That ingredient note field will have a simple piece of state
+    const submitIngredientQuantity = (e, modalIngredient) => {
+        e.preventDefault()
+        // ADD CODE TO HAVE THE SEEDED DB CLEARED WHEN SEEDS IS RUN: User.destroy_all - for each reseource
+        fetch(`/recipes/${createdRecipe.id}/ingredients`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                ingredient_id: modalIngredient.id,
+                quantity: ingredientQuantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.errors){
+                setResponse(data.errors)
+            } else {
+                // addToUserIngredients(data)
+                addToUserRecipes(data)
+                setOpenModal(false)
+            }
+        })        
+    }
+
+    const updateIngredientQuantity = (data) => setIngredientQuantity(data)
 
     const handleNewIngredient = (e) => {
         e.preventDefault();
-        fetch(`/users/${currentUser.id}/ingredients`, {
+        fetch(`/ingredients`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -115,11 +114,11 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
             })
     }
 
-    const handleCheckbox = (e) => {
+    const handleCheckbox = (e, ingredient) => {
         if (e.target.checked) {
-            setSelectedIngredients((prevState => [...prevState, e.target.value]))
+            setSelectedIngredients((prevState => [...prevState, ingredient]))
         } else {
-            setSelectedIngredients((prevState => prevState.filter(ing => ing !== e.target.value)))
+            setSelectedIngredients((prevState => prevState.filter(ing => ing !== ingredient)))
         }
     }
 
@@ -128,105 +127,136 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
         setOpenModal(!openModal)
     }
 
+    const recipeForm = () => {
+        return (
+            <form onSubmit={(e) => handleCreateRecipe(e)}>
+                <div id="recipe-fields">
+                    <div className="user-edit-field">
+                        <TextField
+                            onChange={(e) => setName(e.target.value)}
+                            id="outlined-basic"
+                            label="Name"
+                            variant="outlined"
+                            size="small"
+                        />
+                    </div>
+                    <div className="user-edit-field">
+                        <TextField
+                            onChange={(e) => setDescription(e.target.value)}
+                            id="outlined-basic"
+                            label="Description"
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={4}
+                        />
+                    </div>
+                    <div className="user-edit-field">
+                        <TextField
+                            onChange={(e) => setInstructions(e.target.value)}
+                            id="outlined-basic"
+                            label="Instructions"
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={10}
+                        />
+                    </div>
+                </div>
+                <Button type="submit">Create New Recipe</Button>
+            </form>
+        )
+    }
+
+    const ingredientForm = () => {
+        return(
+            <form onSubmit={(e) => handleNewIngredient(e)}>
+                <div id='ingredient-list'>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                            {
+                                ingredientList.map((ingredient, i) => {
+                                    return(
+                                        <div className="ingredient-form" key={i}>
+                                            <Checkbox label={ingredient.name} variant="soft" onChange={(e) => handleCheckbox(e, ingredient)} />
+                                        </div>
+                                    )
+                                })
+                            }
+                    </Box>
+                    <TextField
+                        sx={{ marginTop: '10px' }}
+                        onChange={(e) => setIngredientName(e.target.value)}
+                        id="outlined-basic"
+                        label="Ingredient Name"
+                        variant="outlined"
+                        size="small"
+                    />
+                </div>
+                <Button type="submit">Add Ingredient</Button>
+                <Button onClick={() => setIngredientsAdded(true)}>Done Adding Ingredients</Button>
+            </form>
+        )
+    }
+
+    const quantityForm = () => {
+        return (
+            <div id='ingredient-list'>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    {
+                        selectedIngredients.map((ingredient, i) => {
+                            return(
+                                <div className="ingredient-form" key={i}>
+                                    <Button onClick={() => handleModal(ingredient)}>Add {ingredient.name} Quantity</Button>
+                                </div>
+                            )
+                        })
+                    }
+                </Box>
+                <Button onClick={() => returnToNewRecipe()}>Done With Recipe</Button>
+            </div>
+        )
+    }
+
+    const returnToNewRecipe = () => {
+        setIngredientsAdded(false)
+        setCreatedRecipe(null)
+    }
+
     return (
         <div className='nav-component'>
             <Modal open={openModal} onClose={() => setOpenModal(false)}>
                 <ModalDialog
-                aria-labelledby="layout-modal-title"
-                aria-describedby="layout-modal-description"
+                    aria-labelledby="layout-modal-title"
+                    aria-describedby="layout-modal-description"
                 >
                     <ModalClose />
-                    <Typography id="layout-modal-title" component="h2">
-                        {modalIngredient?.name}
-                    </Typography>
-                    <div className="ingredient-form">
-                        <TextField
-                            onChange={(e) => updateIngredientNotes(e.target.value)}
-                            id="outlined-basic"
-                            label="Ingredient note"
-                            variant="outlined"
-                            size="small"
-                            sx={{ margin:'5px' }}
-                        />
-                        <IconButton
-                            onClick={(e) => handleIngredientNotes(modalIngredient)}
-                            aria-label="settings">
-                            <SaveIcon />
-                        </IconButton>
-                    </div>
+                    <form onSubmit={(e) => submitIngredientQuantity(e, modalIngredient)}>
+                        <Typography id="layout-modal-title" component="h2">
+                            {modalIngredient?.name}
+                        </Typography>
+                        <div className="ingredient-form">
+                            <TextField
+                                onChange={(e) => updateIngredientQuantity(e.target.value)}
+                                id="outlined-basic"
+                                label="Ingredient quantity"
+                                variant="outlined"
+                                size="small"
+                                sx={{ margin:'5px' }}
+                            />
+                            <IconButton
+                                type="submit"
+                                aria-label="settings">
+                                <SaveIcon />
+                            </IconButton>
+                        </div>
+                    </form>
                 </ModalDialog>
             </Modal>
             <Card sx={{ width: 800, height: 600 }}>
                 <div id='recipe-forms'>
-                    <form onSubmit={(e) => handleSubmit(e)}>
-                        <div id="recipe-fields">
-                            <div className="user-edit-field">
-                                <TextField
-                                    defaultValue={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    id="outlined-basic"
-                                    label="Name"
-                                    variant="outlined"
-                                    size="small"
-                                />
-                            </div>
-                            <div className="user-edit-field">
-                                <TextField
-                                    defaultValue={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    id="outlined-basic"
-                                    label="Description"
-                                    variant="outlined"
-                                    size="medium"
-                                    multiline
-                                    rows={4}
-                                />
-                            </div>
-                            <div className="user-edit-field">
-                                <TextField
-                                    defaultValue={instructions}
-                                    onChange={(e) => setInstructions(e.target.value)}
-                                    id="outlined-basic"
-                                    label="Instructions"
-                                    variant="outlined"
-                                    size="medium"
-                                    multiline
-                                    rows={10}
-                                />
-                            </div>
-                        </div>
-                        <Button type="submit">Create New Recipe</Button>
-                    </form>
-                    <form onSubmit={(e) => handleNewIngredient(e)}>
-                        <div id='ingredient-list'>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                                    {
-                                        ingredientList.map((ingredient, i) => {
-                                            return(
-                                                <div className="ingredient-form" key={i}>
-                                                        <Checkbox value={ingredient.id} label={ingredient.name} variant="soft" onChange={(e) => handleCheckbox(e)} />
-                                                        <IconButton
-                                                            value={ingredient.id}
-                                                            onClick={() => handleModal(ingredient)}
-                                                            aria-label="settings">
-                                                            <AddIcon />
-                                                        </IconButton>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                            </Box>
-                            <TextField
-                                sx={{ marginTop: '10px' }}
-                                onChange={(e) => setIngredientName(e.target.value)}
-                                id="outlined-basic"
-                                label="Ingredient Name"
-                                variant="outlined"
-                                size="small"
-                            />
-                        </div>
-                        <Button type="submit">Add Ingredient</Button>
-                    </form>
+                    {!ingredientsAdded && !createdRecipe && recipeForm()}
+                    {!ingredientsAdded && createdRecipe && ingredientForm()}
+                    {ingredientsAdded && quantityForm()}
                 </div>
                 {response.map((message, i) => <Typography key={i}>{ message }</Typography>)}
             </Card>

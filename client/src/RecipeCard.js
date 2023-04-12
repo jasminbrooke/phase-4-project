@@ -13,7 +13,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const RecipeCard = ({ recipe, removeFromUserRecipes }) => {
 
-  const {description, instructions, name, ingredients} = recipe
+  const {description, instructions, name, ingredients_with_quantities} = recipe
   const [expanded, setExpanded] = useState(false);
 
   const handleDelete = () => {
@@ -72,7 +72,7 @@ const RecipeCard = ({ recipe, removeFromUserRecipes }) => {
             <br/>
             <hr></hr>
             Ingredients:
-            {ingredients?.map((ing, i) => <p key={i}>#{ing.name}</p>)}
+            {ingredients_with_quantities?.map((ing, i) => <p key={i}>{ing.ingredient.name}: {ing.quantity}</p>)}
           </CardContent>
         </Collapse>
       </Card>

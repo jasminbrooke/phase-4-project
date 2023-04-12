@@ -6,7 +6,7 @@ const IngredientList = () => {
     const [ingredients, setIngredients] = useState([])
 
     useEffect(() => {
-        fetch("/user_ingredients")
+        fetch("/ingredients")
         .then(response => response.json())
         .then(data => setIngredients(data))
     }, [])

@@ -68,6 +68,8 @@ code {
   align-items: center;
   overflow-y: scroll;
   max-height: 76vh;
+  min-height: 50vh;
+  width: 70%;
 }
 
 #login {

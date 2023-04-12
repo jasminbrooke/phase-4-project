@@ -26,8 +26,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
     .then(() => handleLogout())
   }
 
-  const addToUserRecipes = (newRecipe) => setRecipes(prevState => [...prevState, newRecipe])
-  
+  const addToUserRecipes = (newRecipe) => setRecipes(prevState => prevState.map(recipe => recipe.id === newRecipe.id ? newRecipe : recipe))
   const removeFromUserRecipes = (recipe) =>  setRecipes(prevState => prevState.filter(r => r !== recipe))
     
   return (
@@ -50,7 +49,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
               <Route exact path="/my_recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes}/>}/>
             </Switch>
             <Switch>
-              <Route exact path="/my_pantry" element={<IngredientList />}/>
+              <Route exact path="/view_ingredients" element={<IngredientList />}/>
             </Switch>
           </div>
         </BrowserRouter>
