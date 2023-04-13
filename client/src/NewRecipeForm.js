@@ -98,13 +98,13 @@ const NewRecipeForm = ( { updateUserRecipes, addToUserIngredients, ingredientLis
             })
         })
         .then(response => response.json())
-            .then(data => {
-                if (data.errors){
-                    setResponse(data.errors)
-                } else {
-                    addToUserIngredients(data)
-                }
-            })
+        .then(data => {
+            if (data.errors){
+                setResponse(data.errors)
+            } else {
+                addToUserIngredients(data)
+            }
+        })
     }
 
     const handleCheckbox = (e, ingredient) => {

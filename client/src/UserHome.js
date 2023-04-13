@@ -70,7 +70,14 @@ const UserHome = ({ handleLogin, handleLogout }) => {
               <Route exact path="/manage_account" element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
             </Switch>
             <Switch>
-              <Route exact path="/my_recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes} updateUserRecipes={updateUserRecipes}/>}/>
+              <Route exact path="/my_recipes" element={<RecipeList
+                recipes={recipes}
+                removeFromUserRecipes={removeFromUserRecipes}
+                updateUserRecipes={updateUserRecipes}
+                addToUserIngredients={addToUserIngredients}
+                ingredientList={ingredientList}
+                />}
+              />
             </Switch>
             <Switch>
               <Route exact path="/view_ingredients" element={<IngredientList />}/>

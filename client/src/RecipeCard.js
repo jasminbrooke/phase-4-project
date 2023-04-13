@@ -14,14 +14,16 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import RecipeEditModal from './RecipeEditModal'
 import QuantityEditModal from './QuantityEditModal'
+// import IngredientModal from './IngredientModal';
 
-const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes }) => {
+const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes, addToUserIngredients, ingredientList }) => {
 
   const {description, instructions, name, ingredients_with_quantities} = recipe
   const [expanded, setExpanded] = useState(false);
   const currentUser = useContext(UserContext)
   const [openEditRecipeModal, setOpenEditRecipeModal] = useState(false)
   const [openEditQuantityModal, setOpenEditQuantityModal] = useState(false)
+  const [openIngredientModal, setOpenIngredientModal] = useState(false)
   const [editingIngredient, setEditingIngredient] = useState(null)
 
  
@@ -31,6 +33,9 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes }) => {
     setEditingIngredient(ingredient)
     setOpenEditQuantityModal(!openEditQuantityModal)
   }
+  // const handleIngredientModal = () => {
+  //   setOpenIngredientModal(!openIngredientModal)
+  // }
     
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -63,6 +68,13 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes }) => {
         currentRecipe={recipe}
         updateUserRecipes={updateUserRecipes}
       />
+      {/* <IngredientModal
+        currentRecipe={recipe}
+        addToUserIngredients={addToUserIngredients}
+        ingredientList={ingredientList}
+        handleModal={handleIngredientModal}
+        openModal={openIngredientModal}
+      /> */}
       <Card style={{"float": "left"}} sx={{ maxWidth: 345, minWidth: 275 }}>
         <CardHeader
           title={name}
@@ -109,6 +121,11 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes }) => {
                 )
               )
             }
+              {/* <Button
+                onClick={() => handleIngredientModal()}
+              >
+                Add Ingredients
+              </Button> */}
           </CardContent>
         </Collapse>
       </Card>
