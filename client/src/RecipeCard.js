@@ -11,19 +11,19 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import RecipeEditModal from './RecipeEditModal'
 
-const RecipeCard = ({ recipe, removeFromUserRecipes }) => {
+const RecipeCard = ({ recipe, removeFromUserRecipes, addToUserRecipes }) => {
 
   const {description, instructions, name, ingredients_with_quantities} = recipe
   const [expanded, setExpanded] = useState(false);
   const currentUser = useContext(UserContext)
+  const [openEditRecipeModal, setOpenEditRecipeModal] = useState(false)
 
-  const handleDelete = () => {
-    fetch(`/users/${currentUser.id}/recipes/${recipe.id}`,{
-      method: 'DELETE'
-    })
-    .then(() => removeFromUserRecipes(recipe))
-  }
+ 
+
+  const handleEditRecipe = () => setOpenEditRecipeModal(!openEditRecipeModal)
     
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -39,17 +39,30 @@ const RecipeCard = ({ recipe, removeFromUserRecipes }) => {
       duration: theme.transitions.duration.shortest,
     }),
   }));
+  // <IconButton
+  //             onClick={() => handleDelete()}
+  //             aria-label="settings">
+  //             <DeleteForeverIcon  />
+  //           </IconButton>
 
   return (
     <Box gridColumn="span 3">
+      <RecipeEditModal 
+        currentRecipe={recipe}
+        handleModal={handleEditRecipe}
+        openModal={openEditRecipeModal}
+        addToUserRecipes={addToUserRecipes}
+        removeFromUserRecipes={removeFromUserRecipes}
+      />
       <Card style={{"float": "left"}} sx={{ maxWidth: 345, minWidth: 275 }}>
         <CardHeader
           title={name}
           action={
             <IconButton
-            onClick={() => handleDelete()}
-            aria-label="settings">
-            <DeleteForeverIcon  />
+              // onClick={() => handleDelete()}
+              onClick={() => handleEditRecipe()}
+              aria-label="settings">
+              <EditIcon  />
             </IconButton>
           }
         />

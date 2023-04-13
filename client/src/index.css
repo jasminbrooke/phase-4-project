@@ -67,12 +67,12 @@ code {
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
-  max-height: 60vh;
+  max-height: 55vh;
   min-height: 50vh;
   width: 70%;
 }
 
-#login {
+#column {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,7 +87,3 @@ code {
   flex-direction: row;
   align-items: center;
 }
-
-/* #recipe-fields {
-  max-height: 140px;
-} */

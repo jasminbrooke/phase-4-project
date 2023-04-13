@@ -18,15 +18,15 @@ const IngredientForm = ({ handleNewIngredient, handleIngredientName, handleIngre
                             })
                         }
                 </Box>
-                <TextField
+            </div>
+            <TextField
                     sx={{ marginTop: '10px' }}
                     onChange={(e) => handleIngredientName(e.target.value)}
                     id="outlined-basic"
-                    label="Ingredient Name"
+                    label="New Ingredient Name"
                     variant="outlined"
                     size="small"
                 />
-            </div>
             <Button type="submit">Create New Ingredient</Button>
             <Button onClick={() => handleIngredientsAdded(true)}>Continue with Selected Ingredients</Button>
         </form>

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "/me", to: "users#show"
   resources :sessions, only: %i[create destroy]
   resources :users, only: %i[update destroy] do
-    resources :recipes, only: %i[index create destroy]
+    resources :recipes, only: %i[index create update destroy]
   end
   resources :ingredients, only: %i[create index] do
     resources :recipes, only: %i[index update]

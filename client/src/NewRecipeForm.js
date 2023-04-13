@@ -3,8 +3,6 @@ import { UserContext } from "./App";
 import { TextField, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-import Box from '@mui/joy/Box';
-import Checkbox from '@mui/joy/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
 import Modal from '@mui/joy/Modal';
@@ -12,6 +10,7 @@ import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
 import RecipeForm from './RecipeForm'
 import IngredientForm from './IngredientForm';
+import QuantityForm from './QuantityForm'
 
 const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList } ) => {
 
@@ -103,7 +102,7 @@ const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList
             .then(data => {
                 if (data.errors){
                     setResponse(data.errors)
-                } else{
+                } else {
                     addToUserIngredients(data)
                 }
             })
@@ -120,29 +119,6 @@ const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList
     const handleModal = (ingredient) => {
         setModalIngredient(ingredient)
         setOpenModal(!openModal)
-    }
-
-    
-
-    
-
-    const quantityForm = () => {
-        return (
-            <div id='ingredient-list'>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    {
-                        selectedIngredients.map((ingredient, i) => {
-                            return(
-                                <div className="ingredient-form" key={i}>
-                                    <Button onClick={() => handleModal(ingredient)}>Add {ingredient.name} Quantity</Button>
-                                </div>
-                            )
-                        })
-                    }
-                </Box>
-                <Button onClick={() => returnToNewRecipe()}>Done With Recipe</Button>
-            </div>
-        )
     }
 
     const returnToNewRecipe = () => {
@@ -185,7 +161,7 @@ const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList
                     {
                         !ingredientsAdded && !createdRecipe && (
                             <RecipeForm
-                                handleCreateRecipe={handleCreateRecipe}
+                                handleRecipe={handleCreateRecipe}
                                 handleName={handleName}
                                 handleDescription={handleDescription}
                                 handleInstructions={handleInstructions}
@@ -203,9 +179,17 @@ const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList
                             />
                         )
                     }
-                    {ingredientsAdded && quantityForm()}
+                    {
+                        ingredientsAdded && (
+                            <QuantityForm
+                                selectedIngredients={selectedIngredients}
+                                handleModal={handleModal}
+                                returnToNewRecipe={returnToNewRecipe}
+                            />
+                        )
+                    }
                 </div>
-                {response.map((message, i) => <Typography key={i}>{ message }</Typography>)}
+                {response.map((message, i) => <Typography key={i}>Error: { message }</Typography>)}
             </Card>
         </div>
     )}

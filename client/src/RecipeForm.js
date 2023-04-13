@@ -1,12 +1,16 @@
 import React from 'react'
 import { TextField, Button } from '@mui/material';
 
-const RecipeForm = ({ handleCreateRecipe, handleName, handleDescription, handleInstructions }) => {
+const RecipeForm = ({ handleRecipe, handleName, handleDescription, handleInstructions, currentRecipe = null }) => {
+
+    const editMode = currentRecipe ? true : false
+
     return (
-        <form onSubmit={(e) => handleCreateRecipe(e)}>
-            <div id="recipe-fields">
+        <form onSubmit={(e) => handleRecipe(e)}>
+            <div id="column">
                 <div className="user-edit-field">
                     <TextField
+                        defaultValue={editMode ? currentRecipe.name : null}
                         onChange={(e) => handleName(e.target.value)}
                         id="outlined-basic"
                         label="Name"
@@ -16,6 +20,7 @@ const RecipeForm = ({ handleCreateRecipe, handleName, handleDescription, handleI
                 </div>
                 <div className="user-edit-field">
                     <TextField
+                        defaultValue={editMode ? currentRecipe.description : null}
                         onChange={(e) => handleDescription(e.target.value)}
                         id="outlined-basic"
                         label="Description"
@@ -27,6 +32,7 @@ const RecipeForm = ({ handleCreateRecipe, handleName, handleDescription, handleI
                 </div>
                 <div className="user-edit-field">
                     <TextField
+                        defaultValue={editMode ? currentRecipe.instructions : null}
                         onChange={(e) => handleInstructions(e.target.value)}
                         id="outlined-basic"
                         label="Instructions"
@@ -36,8 +42,8 @@ const RecipeForm = ({ handleCreateRecipe, handleName, handleDescription, handleI
                         rows={10}
                     />
                 </div>
+                <Button type="submit">{editMode ? 'Update Recipe' : 'Create New Recipe'}</Button>
             </div>
-            <Button type="submit">Create New Recipe</Button>
         </form>
     )
 } 
