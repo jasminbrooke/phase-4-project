@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from "./App";
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -13,17 +13,24 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import RecipeEditModal from './RecipeEditModal'
+import QuantityEditModal from './QuantityEditModal'
 
-const RecipeCard = ({ recipe, removeFromUserRecipes, addToUserRecipes }) => {
+const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes }) => {
 
   const {description, instructions, name, ingredients_with_quantities} = recipe
   const [expanded, setExpanded] = useState(false);
   const currentUser = useContext(UserContext)
   const [openEditRecipeModal, setOpenEditRecipeModal] = useState(false)
+  const [openEditQuantityModal, setOpenEditQuantityModal] = useState(false)
+  const [editingIngredient, setEditingIngredient] = useState(null)
 
  
 
   const handleEditRecipe = () => setOpenEditRecipeModal(!openEditRecipeModal)
+  const handleEditQuantity = (ingredient) => {
+    setEditingIngredient(ingredient)
+    setOpenEditQuantityModal(!openEditQuantityModal)
+  }
     
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -39,11 +46,6 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, addToUserRecipes }) => {
       duration: theme.transitions.duration.shortest,
     }),
   }));
-  // <IconButton
-  //             onClick={() => handleDelete()}
-  //             aria-label="settings">
-  //             <DeleteForeverIcon  />
-  //           </IconButton>
 
   return (
     <Box gridColumn="span 3">
@@ -51,15 +53,21 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, addToUserRecipes }) => {
         currentRecipe={recipe}
         handleModal={handleEditRecipe}
         openModal={openEditRecipeModal}
-        addToUserRecipes={addToUserRecipes}
+        updateUserRecipes={updateUserRecipes}
         removeFromUserRecipes={removeFromUserRecipes}
+      />
+      <QuantityEditModal
+        handleModal={handleEditQuantity}
+        openModal={openEditQuantityModal}
+        editingIngredient={editingIngredient}
+        currentRecipe={recipe}
+        updateUserRecipes={updateUserRecipes}
       />
       <Card style={{"float": "left"}} sx={{ maxWidth: 345, minWidth: 275 }}>
         <CardHeader
           title={name}
           action={
             <IconButton
-              // onClick={() => handleDelete()}
               onClick={() => handleEditRecipe()}
               aria-label="settings">
               <EditIcon  />
@@ -87,7 +95,20 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, addToUserRecipes }) => {
             <br/>
             <hr></hr>
             Ingredients:
-            {ingredients_with_quantities?.map((ing, i) => <p key={i}>{ing.ingredient.name}: {ing.quantity}</p>)}
+            <br/>
+            {
+              ingredients_with_quantities?.map((ing, i) => (
+                <Button
+                  key={i}
+                  variant="outlined"
+                  size="small"
+                  onClick={() => handleEditQuantity(ing)}
+                >
+                  {ing.ingredient.name}: {ing.quantity}
+                </Button>
+                )
+              )
+            }
           </CardContent>
         </Collapse>
       </Card>

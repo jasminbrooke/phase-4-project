@@ -12,7 +12,7 @@ import RecipeForm from './RecipeForm'
 import IngredientForm from './IngredientForm';
 import QuantityForm from './QuantityForm'
 
-const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList } ) => {
+const NewRecipeForm = ( { updateUserRecipes, addToUserIngredients, ingredientList } ) => {
 
     const currentUser = useContext(UserContext)
     const [response, setResponse] = useState([])
@@ -56,7 +56,7 @@ const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList
             if (data.errors) {
                 setResponse(data.errors)
             } else {
-                addToUserRecipes(data)
+                updateUserRecipes(data)
                 setCreatedRecipe(data)
             }
         })
@@ -80,8 +80,7 @@ const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList
             if (data.errors){
                 setResponse(data.errors)
             } else {
-                // addToUserIngredients(data)
-                addToUserRecipes(data)
+                updateUserRecipes(data)
                 setOpenModal(false)
             }
         })        

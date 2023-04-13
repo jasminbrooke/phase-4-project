@@ -7,7 +7,7 @@ import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
 import RecipeForm from './RecipeForm'
 
-const RecipeEditModal = ({ removeFromUserRecipes, addToUserRecipes, currentRecipe, handleModal, openModal }) => {
+const RecipeEditModal = ({ removeFromUserRecipes, updateUserRecipes, currentRecipe, handleModal, openModal }) => {
 
     const currentUser = useContext(UserContext)
     const [name, setName] = useState("")
@@ -43,7 +43,7 @@ const RecipeEditModal = ({ removeFromUserRecipes, addToUserRecipes, currentRecip
             if (data.errors) {
                 setErrors(data.errors)
             } else {
-                addToUserRecipes(data)
+                updateUserRecipes(data)
                 handleModal(false)
             }
         })
@@ -58,7 +58,8 @@ const RecipeEditModal = ({ removeFromUserRecipes, addToUserRecipes, currentRecip
             handleModal(false)
         })
       }
-    // add edit to each indiviual ingredient, add button to add more ingredients, pass in the ingredientsList filtered by ingredients already on the recipe
+    // add edit to each indiviual ingredient - will use the normal quantity modal but add a "remove ingredient from recipe" button
+    // add button to add more ingredients, pass in the ingredientsList filtered by ingredients already on the recipe
     return (
         <div className='nav-component'>
             <Modal open={openModal} onClose={() => handleModal(false)}>

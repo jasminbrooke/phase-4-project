@@ -29,6 +29,35 @@ class IngredientsController < ApplicationController
         end
     end
 
+    def update
+        if params[:recipe_id] # we're in a nested route /recipes/:recipe_id/ingredients/:id updating a recipe_ingredient
+            recipe = Recipe.find_by!(id: params[:recipe_id])
+            if recipe.recipe_ingredients.update(ingredient_id: params[:id], quantity: params[:quantity])
+                render json: recipe, status: :ok
+            else
+                render json: { errors: ['Failed to update quantity :('] }, status: :unprocessable_entity
+            end
+        else
+            ingredient = Ingredient.find_by!(id: params[:id])
+            if ingredient.update(ingredient_params)
+                render json: ingredient, status: :ok
+            else
+                render json: { errors: ingredient.errors.full_messages }, status: :unprocessable_entity
+            end
+        end
+    end
+
+    def destroy
+        # this route is only for deleting recipe_ingredients, /recipes/:recipe_id/ingredients/:id
+        recipe = Recipe.find_by!(id: params[:recipe_id])
+        recipe_ingredient = recipe.recipe_ingredients.find_by(ingredient_id: params[:id])
+        if recipe_ingredient.destroy
+            render json: recipe, status: :ok
+        else
+            render json: { errors: ['Failed to remove ingredient :('] }, status: :unprocessable_entity
+        end
+    end
+
     private
 
     def ingredient_params

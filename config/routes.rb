@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :recipes, only: %i[index update]
   end
   resources :recipes, only: %i[create show index update destroy] do
-    resources :ingredients, only: %i[index create]
+    resources :ingredients, only: %i[index create update destroy]
   end
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

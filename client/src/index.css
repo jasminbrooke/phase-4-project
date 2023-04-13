@@ -72,7 +72,7 @@ code {
   width: 70%;
 }
 
-#column {
+#column, #login {
   display: flex;
   flex-direction: column;
   align-items: center;

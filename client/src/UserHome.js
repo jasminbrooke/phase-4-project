@@ -34,7 +34,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
     .then(() => handleLogout())
   }
 
-  const addToUserRecipes = (newRecipe) => {
+  const updateUserRecipes = (newRecipe) => {
     if(recipes.find(r => r.id === newRecipe.id)) {
       const newRecipeArray = recipes.map(r => {
         if (r.id === newRecipe.id) {
@@ -61,7 +61,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
               <Route exact path="/create_a_recipe" element={<NewRecipeForm
                 ingredientList={ingredientList}
                 currentUser={currentUser}
-                addToUserRecipes={addToUserRecipes}
+                updateUserRecipes={updateUserRecipes}
                 addToUserIngredients={addToUserIngredients}
                 />}
               />
@@ -70,7 +70,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
               <Route exact path="/manage_account" element={<UserEditForm handleLogin={handleLogin} handleDelete={handleDelete}/>}/>
             </Switch>
             <Switch>
-              <Route exact path="/my_recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes} addToUserRecipes={addToUserRecipes}/>}/>
+              <Route exact path="/my_recipes" element={<RecipeList recipes={recipes} removeFromUserRecipes={removeFromUserRecipes} updateUserRecipes={updateUserRecipes}/>}/>
             </Switch>
             <Switch>
               <Route exact path="/view_ingredients" element={<IngredientList />}/>
