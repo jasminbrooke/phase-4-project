@@ -8,7 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
 
 const QuantityEditModal = ({ updateUserRecipes, currentRecipe, editingIngredient, handleModal, openModal }) => {
-
     const [ingredientQuantity, setIngredientQuantity] = useState('')
     const [errors, setErrors] = useState([])
 
@@ -58,7 +57,7 @@ const QuantityEditModal = ({ updateUserRecipes, currentRecipe, editingIngredient
                     aria-describedby="layout-modal-description"
                 >
                     <ModalClose />
-                    <form onSubmit={(e) => submitIngredientQuantity(e, editingIngredient.ingredient)}>
+                    <form onSubmit={(e) => submitIngredientQuantity(e)}>
                         <Typography id="layout-modal-title" component="h2">
                             {editingIngredient?.ingredient?.name}
                         </Typography>

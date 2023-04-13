@@ -56,6 +56,7 @@ const Signup = ({ handleLogin }) => {
             label="Password"
             variant="outlined"
             size="small"
+            type='password'
         />
         <TextField
             onChange={(e) => setPasswordConfirmation(e.target.value)}
@@ -63,6 +64,7 @@ const Signup = ({ handleLogin }) => {
             label="Password Confirmation"
             variant="outlined"
             size="small"
+            type='password'
         />
         <Button type="submit">Signup</Button>
       </form>

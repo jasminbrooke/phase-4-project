@@ -1,11 +1,13 @@
 puts "seeding..."
 
+Recipe.destroy_all
+User.destroy_all
+Ingredient.destroy_all
+
 # =================== users
 # ========================================================
 
 User.create([
-    {name: 'Joe', username: 'Joe1', password_digest: BCrypt::Password.create('123')},
-    {name:'Richard', username: 'RichieRich', password_digest: BCrypt::Password.create('123')},
     {name: 'Nixie', username: 'Nixinator', password_digest: BCrypt::Password.create('123')}
 ])
 

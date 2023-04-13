@@ -3,6 +3,7 @@ import Box from '@mui/joy/Box';
 import { Button } from '@mui/material';
 
 const QuantityForm = ({ selectedIngredients, handleModal, returnToNewRecipe }) => {
+    
     return (
         <div id='ingredient-list'>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>

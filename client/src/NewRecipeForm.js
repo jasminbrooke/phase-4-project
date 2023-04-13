@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { UserContext } from "./App";
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
@@ -28,7 +28,6 @@ const NewRecipeForm = ( { updateUserRecipes, addToUserIngredients, ingredientLis
     const [ingredientQuantity, setIngredientQuantity] = useState('')
     const [openModal, setOpenModal] = useState(false)
     const [modalIngredient, setModalIngredient] = useState(null)
-
     
     const handleName = (value) => setName(value)
     const handleDescription = (value) => setDescription(value)
@@ -64,7 +63,6 @@ const NewRecipeForm = ( { updateUserRecipes, addToUserIngredients, ingredientLis
 
     const submitIngredientQuantity = (e, modalIngredient) => {
         e.preventDefault()
-        // ADD CODE TO HAVE THE SEEDED DB CLEARED WHEN SEEDS IS RUN: User.destroy_all - for each reseource
         fetch(`/recipes/${createdRecipe.id}/ingredients`, {
             method: 'POST',
             headers: {
