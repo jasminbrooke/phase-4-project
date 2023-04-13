@@ -5,6 +5,7 @@ class RecipeSerializer < ActiveModel::Serializer
   has_many :ingredients
 
   def ingredients_with_quantities
+    # self.object.recipe_ingredients.includes(:ingredient)  -- does not show the through relationship, but is more efficient
     # self.object.ingredients = recipe.ingredients showing the "through" relationship
     self.object.ingredients.map do |ing| 
       {

@@ -10,8 +10,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
+import RecipeForm from './RecipeForm'
+import IngredientForm from './IngredientForm';
 
-const NewRecipeForm = ( { addToUserRecipes } ) => {
+const NewRecipeForm = ( { addToUserRecipes, addToUserIngredients, ingredientList } ) => {
 
     const currentUser = useContext(UserContext)
     const [response, setResponse] = useState([])
@@ -23,22 +25,18 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
     
     const [selectedIngredients, setSelectedIngredients] = useState([])
     const [ingredientName, setIngredientName] = useState('')
-    const [ingredientList, setIngredientList] = useState([])
+   
     const [ingredientQuantity, setIngredientQuantity] = useState('')
     const [openModal, setOpenModal] = useState(false)
     const [modalIngredient, setModalIngredient] = useState(null)
 
-    const addToUserIngredients = (newIngredient) => setIngredientList(prevState => [...prevState, newIngredient])
+    
+    const handleName = (value) => setName(value)
+    const handleDescription = (value) => setDescription(value)
+    const handleInstructions = (value) => setInstructions(value)
 
-    useEffect(() => {
-        getIngredients();
-    }, [])
-
-    const getIngredients = () => {
-        fetch('/ingredients')
-        .then(response => response.json())
-        .then(data => setIngredientList(data))
-    }
+    const handleIngredientName = (value) => setIngredientName(value)
+    const handleIngredientsAdded = (value) => setIngredientsAdded(value)
 
     const handleCreateRecipe = (event) => {
         event.preventDefault();
@@ -124,76 +122,9 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
         setOpenModal(!openModal)
     }
 
-    const recipeForm = () => {
-        return (
-            <form onSubmit={(e) => handleCreateRecipe(e)}>
-                <div id="recipe-fields">
-                    <div className="user-edit-field">
-                        <TextField
-                            onChange={(e) => setName(e.target.value)}
-                            id="outlined-basic"
-                            label="Name"
-                            variant="outlined"
-                            size="small"
-                        />
-                    </div>
-                    <div className="user-edit-field">
-                        <TextField
-                            onChange={(e) => setDescription(e.target.value)}
-                            id="outlined-basic"
-                            label="Description"
-                            variant="outlined"
-                            size="medium"
-                            multiline
-                            rows={4}
-                        />
-                    </div>
-                    <div className="user-edit-field">
-                        <TextField
-                            onChange={(e) => setInstructions(e.target.value)}
-                            id="outlined-basic"
-                            label="Instructions"
-                            variant="outlined"
-                            size="medium"
-                            multiline
-                            rows={10}
-                        />
-                    </div>
-                </div>
-                <Button type="submit">Create New Recipe</Button>
-            </form>
-        )
-    }
+    
 
-    const ingredientForm = () => {
-        return(
-            <form onSubmit={(e) => handleNewIngredient(e)}>
-                <div id='ingredient-list'>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                            {
-                                ingredientList.map((ingredient, i) => {
-                                    return(
-                                        <div className="ingredient-form" key={i}>
-                                            <Checkbox label={ingredient.name} variant="soft" onChange={(e) => handleCheckbox(e, ingredient)} />
-                                        </div>
-                                    )
-                                })
-                            }
-                    </Box>
-                    <TextField
-                        sx={{ marginTop: '10px' }}
-                        onChange={(e) => setIngredientName(e.target.value)}
-                        id="outlined-basic"
-                        label="Ingredient Name"
-                        variant="outlined"
-                        size="small"
-                    />
-                </div>
-                <Button type="submit">Create New Ingredient</Button>
-                <Button onClick={() => setIngredientsAdded(true)}>Continue with Selected Ingredients</Button>
-            </form>
-        )
-    }
+    
 
     const quantityForm = () => {
         return (
@@ -251,8 +182,27 @@ const NewRecipeForm = ( { addToUserRecipes } ) => {
             </Modal>
             <Card sx={{ width: 800, height: 600 }}>
                 <div id='recipe-forms'>
-                    {!ingredientsAdded && !createdRecipe && recipeForm()}
-                    {!ingredientsAdded && createdRecipe && ingredientForm()}
+                    {
+                        !ingredientsAdded && !createdRecipe && (
+                            <RecipeForm
+                                handleCreateRecipe={handleCreateRecipe}
+                                handleName={handleName}
+                                handleDescription={handleDescription}
+                                handleInstructions={handleInstructions}
+                            />
+                        )
+                    }
+                    {
+                        !ingredientsAdded && createdRecipe && (
+                            <IngredientForm 
+                                handleNewIngredient={handleNewIngredient}
+                                handleIngredientName={handleIngredientName}
+                                handleIngredientsAdded={handleIngredientsAdded}
+                                handleCheckbox={handleCheckbox}
+                                ingredientList={ingredientList}
+                            />
+                        )
+                    }
                     {ingredientsAdded && quantityForm()}
                 </div>
                 {response.map((message, i) => <Typography key={i}>{ message }</Typography>)}

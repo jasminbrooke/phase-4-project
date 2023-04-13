@@ -12,12 +12,20 @@ import IngredientList from './IngredientList';
 const UserHome = ({ handleLogin, handleLogout }) => {
 
   const [recipes, setRecipes] = useState([])
+  const [ingredientList, setIngredientList] = useState([])
 
   const currentUser = useContext(UserContext)
 
   useEffect(() => {
     setRecipes(currentUser.recipes)
+    getIngredients()
   }, [currentUser])
+
+  const getIngredients = () => {
+    fetch('/ingredients')
+    .then(response => response.json())
+    .then(data => setIngredientList(data))
+}
     
   const handleDelete = () => {
     fetch(`/users/${currentUser.id}`, {
@@ -41,6 +49,7 @@ const UserHome = ({ handleLogin, handleLogout }) => {
     }
   }
   const removeFromUserRecipes = (recipe) =>  setRecipes(prevState => prevState.filter(r => r !== recipe))
+  const addToUserIngredients = (newIngredient) => setIngredientList(prevState => [...prevState, newIngredient])
     
   return (
     <div>
@@ -50,8 +59,10 @@ const UserHome = ({ handleLogin, handleLogout }) => {
           <div>
             <Switch>
               <Route exact path="/create_a_recipe" element={<NewRecipeForm
+                ingredientList={ingredientList}
                 currentUser={currentUser}
                 addToUserRecipes={addToUserRecipes}
+                addToUserIngredients={addToUserIngredients}
                 />}
               />
             </Switch>
