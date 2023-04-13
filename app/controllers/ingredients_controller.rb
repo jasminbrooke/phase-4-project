@@ -16,8 +16,6 @@ class IngredientsController < ApplicationController
             if recipe.recipe_ingredients.create(ingredient_id: params[:ingredient_id], quantity: params[:quantity])
                 # create the join record so it belongs to the recipe, and pass in the id of ingredient it belongs to, as well as the user-submitted quantity attribute that will live on the join record
                 render json: recipe, status: :created
-                # .as_json(include: { recipe_ingredients: { where: { recipe_id: params[:recipe_id] } } }), status: :created
-                # trying to return the ingredient along with the join record that was just created, but it kept returning all of the recipe_ingredient records
             else
                 render json: { errors: ['Failed to save quantity :('] }, status: :unprocessable_entity
             end

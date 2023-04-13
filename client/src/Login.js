@@ -47,6 +47,8 @@ const Login = ({ handleLogin }) => {
             label="Password"
             variant="outlined"
             size="small"
+            input type='password'
+
         />
         <Button type="submit">Login</Button>
       </form>

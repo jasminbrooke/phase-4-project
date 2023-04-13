@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { UserContext } from "./App";
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
@@ -15,9 +16,10 @@ const RecipeCard = ({ recipe, removeFromUserRecipes }) => {
 
   const {description, instructions, name, ingredients_with_quantities} = recipe
   const [expanded, setExpanded] = useState(false);
+  const currentUser = useContext(UserContext)
 
   const handleDelete = () => {
-    fetch(`recipes/${recipe.id}`,{
+    fetch(`/users/${currentUser.id}/recipes/${recipe.id}`,{
       method: 'DELETE'
     })
     .then(() => removeFromUserRecipes(recipe))

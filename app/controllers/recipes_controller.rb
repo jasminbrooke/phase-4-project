@@ -1,4 +1,4 @@
-class RecipesController < ApplicationController
+class RecipesController < ApplicationController    
     def index
         if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/recipes
             user = User.find_by!(id: params[:user_id])
@@ -10,10 +10,6 @@ class RecipesController < ApplicationController
     end
 
     def create # creating user_recipes and recipe_ingredients
-        if params[:user_id] != session[:user_id] # if the user is not authorized to create a recipe for this user
-            render json: { errors: ["Unauthorized"]}, status: :unauthorized
-        end
-        # params = {name: 'aaa', desciption: 'aaahh', instructions: '1. ahhh, 2. abhb', ingredients: [{id: 1, quantity: 'www'},{id: 12, quantity: 'www'}], }
         user = User.find_by!(id: session[:user_id]) # find the user
         recipe = user.recipes.create(recipe_params) # create the recipe so that it belongs to the user
         if recipe.valid?
@@ -26,9 +22,6 @@ class RecipesController < ApplicationController
     def update
         # for updating recipes, or updating recipe_ingredients
         recipe = Recipe.find_by!(id: params[:id])
-        if recipe.user.id != session[:user_id] # if the user is not authorized to update this recipe
-            render json: { errors: ["Unauthorized"]}, status: :unauthorized
-        end
         
         if params[:ingredient_id] # we're in a nested route /ingredients/:ingredient_id/recipes/:id
             recipe.recipe_ingredients.update(ingredient_id: params[:ingredient_id], quantity: params[:quantity])
@@ -45,14 +38,10 @@ class RecipesController < ApplicationController
 
     def destroy
         recipe = Recipe.find_by!(id: params[:id])
-        if recipe.user.id == session[:user_id]
-            if recipe.destroy
-                render json: { message: "Recipe deleted successfully" }, status: :no_content
-            else
-                render json: { error: recipe.errors.full_messages }, status: :unprocessable_entity
-            end
+        if recipe.destroy
+            render json: { message: "Recipe deleted successfully" }, status: :no_content
         else
-            render json: { errors: ["Unauthorized"] }, status: :unauthorized
+            render json: { error: recipe.errors.full_messages }, status: :unprocessable_entity
         end
     end
     
