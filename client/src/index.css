@@ -58,6 +58,7 @@ code {
 #recipe-forms {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 #recipe-forms form { width: 50%; }
@@ -69,7 +70,7 @@ code {
   overflow-y: scroll;
   max-height: 55vh;
   min-height: 50vh;
-  width: 70%;
+  /* width: 70%; */
 }
 
 #column, #login {

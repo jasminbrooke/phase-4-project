@@ -12,15 +12,18 @@ class IngredientsController < ApplicationController
     def create
         if params[:recipe_id] # this means we're posting an ingredient to a recipe  /recipes/:recipe_id/ingredients
             recipe = Recipe.find(params[:recipe_id])
-            ingredient = Ingredient.find(params[:ingredient_id])
-            old_record = recipe.recipe_ingredients.find_by(ingredient_id: params[:ingredient_id])
-            old_record&.destroy
-            if recipe.recipe_ingredients.create(ingredient_id: params[:ingredient_id], quantity: params[:quantity])
+            ingredients = params[:ingredients]
+            ingredients.each do |ing|
+                id = ing[:ingredient_id] || ing[:id]
+                old_record = recipe.recipe_ingredients.find_by(ingredient_id: id)
+                old_record&.destroy
+                result = recipe.recipe_ingredients.create(ingredient_id: id, quantity: ing[:quantity])
                 # create the join record so it belongs to the recipe, and pass in the id of ingredient it belongs to, as well as the user-submitted quantity attribute that will live on the join record
-                render json: recipe, status: :created
-            else
-                render json: { errors: ['Failed to save quantity :('] }, status: :unprocessable_entity
+                if result.nil?
+                    render json: { errors: ['Failed to save :('] }, status: :unprocessable_entity
+                end
             end
+            render json: recipe, status: :created
         else
             ingredient = Ingredient.create(ingredient_params)
             if ingredient.valid?

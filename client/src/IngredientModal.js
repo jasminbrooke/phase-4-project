@@ -7,16 +7,34 @@ import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
 import IngredientForm from './IngredientForm'
 
-const IngredientModal = ({ addToUserIngredients, ingredientList, currentRecipe, handleModal, openModal }) => {
+const IngredientModal = ({ updateUserRecipes, ingredientList, currentRecipe, handleModal, openModal }) => {
     const currentUser = useContext(UserContext)
 
     const [errors, setErrors] = useState([])
-    const [ingredientsAdded, setIngredientsAdded] = useState(false)
     const [selectedIngredients, setSelectedIngredients] = useState([])
     const [ingredientName, setIngredientName] = useState('')
 
     const handleIngredientName = (value) => setIngredientName(value)
-    const handleIngredientsAdded = (value) => setIngredientsAdded(value)
+    const handleIngredientsAdded = () => {
+        fetch(`/recipes/${currentRecipe.id}/ingredients`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                ingredients: selectedIngredients
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.errors){
+                setErrors(data.errors)
+            } else {
+                updateUserRecipes(data)
+                handleModal(false)
+            }
+        })
+    }
 
     useEffect(() => {
         console.log(currentRecipe)
@@ -39,7 +57,7 @@ const IngredientModal = ({ addToUserIngredients, ingredientList, currentRecipe, 
             if (data.errors){
                 setErrors(data.errors)
             } else {
-                addToUserIngredients(data)
+                updateUserRecipes(data)
             }
         })
     }
@@ -51,9 +69,6 @@ const IngredientModal = ({ addToUserIngredients, ingredientList, currentRecipe, 
             setSelectedIngredients((prevState => prevState.filter(ing => ing !== ingredient)))
         }
     }
-    // currentRecipe.ingredients = [{quantity: 2, ingredient: {ingredient stuff}}]
-    // const existingIngredients = currentRecipe?.ingredient_with_quantities?.map(ing => ing.ingredient)
-    // const filteredIngredients = ingredientList.filter(ing => !existingIngredients?.includes(ing))
 
     return (
         <div className='nav-component'>
@@ -69,6 +84,7 @@ const IngredientModal = ({ addToUserIngredients, ingredientList, currentRecipe, 
                         handleIngredientsAdded={handleIngredientsAdded}
                         handleCheckbox={handleCheckbox}
                         ingredientList={ingredientList}
+                        editMode={true}
                     />
                     {errors.map((error, i) => <Typography key={i}>Error: { error }</Typography>)}
                 </ModalDialog>

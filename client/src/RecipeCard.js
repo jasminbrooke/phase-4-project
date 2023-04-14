@@ -14,7 +14,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import RecipeEditModal from './RecipeEditModal'
 import QuantityEditModal from './QuantityEditModal'
-// import IngredientModal from './IngredientModal';
+import IngredientModal from './IngredientModal';
 
 const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes, addToUserIngredients, ingredientList }) => {
 
@@ -33,13 +33,19 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes, addToUse
     setEditingIngredient(ingredient)
     setOpenEditQuantityModal(!openEditQuantityModal)
   }
-  // const handleIngredientModal = () => {
-  //   setOpenIngredientModal(!openIngredientModal)
-  // }
+
+  const handleIngredientModal = () => {
+    setOpenIngredientModal(!openIngredientModal)
+  }
     
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  // ingredients_with_quantities = [{quantity: 2, ingredient: {ingredient data}}]
+  const existingIngredients = ingredients_with_quantities?.map(ing => ing.ingredient.id) // array of ingredient ids that are already in this recipe
+  const filteredIngredients = ingredientList.filter(ing => !existingIngredients.includes(ing.id)) 
+  // filter out ingredients from ingredientList(all ingredients) if their id is in the list of ingredients in this recipe already
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -68,13 +74,14 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes, addToUse
         currentRecipe={recipe}
         updateUserRecipes={updateUserRecipes}
       />
-      {/* <IngredientModal
+      <IngredientModal
         currentRecipe={recipe}
         addToUserIngredients={addToUserIngredients}
-        ingredientList={ingredientList}
+        ingredientList={filteredIngredients}
         handleModal={handleIngredientModal}
         openModal={openIngredientModal}
-      /> */}
+        updateUserRecipes={updateUserRecipes}
+      />
       <Card style={{"float": "left"}} sx={{ maxWidth: 345, minWidth: 275 }}>
         <CardHeader
           title={name}
@@ -121,11 +128,12 @@ const RecipeCard = ({ recipe, removeFromUserRecipes, updateUserRecipes, addToUse
                 )
               )
             }
-              {/* <Button
-                onClick={() => handleIngredientModal()}
-              >
-                Add Ingredients
-              </Button> */}
+            <br/>
+            <Button
+              onClick={() => handleIngredientModal()}
+            >
+              Add Ingredients
+            </Button>
           </CardContent>
         </Collapse>
       </Card>

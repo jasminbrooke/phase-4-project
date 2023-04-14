@@ -34,7 +34,7 @@ const NewRecipeForm = ( { updateUserRecipes, addToUserIngredients, ingredientLis
     const handleInstructions = (value) => setInstructions(value)
 
     const handleIngredientName = (value) => setIngredientName(value)
-    const handleIngredientsAdded = (value) => setIngredientsAdded(value)
+    const handleIngredientsAdded = () => setIngredientsAdded(true)
 
     const handleCreateRecipe = (event) => {
         event.preventDefault();
@@ -69,8 +69,10 @@ const NewRecipeForm = ( { updateUserRecipes, addToUserIngredients, ingredientLis
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                ingredient_id: modalIngredient.id,
-                quantity: ingredientQuantity
+                ingredients: [{
+                    ingredient_id: modalIngredient.id,
+                    quantity: ingredientQuantity
+                }]
             })
         })
         .then(response => response.json())
