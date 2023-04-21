@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authorize
+  # before_action :authorize
 
   include ActionController::Cookies
   rescue_from ActiveRecord::RecordNotFound, with: ->(exception) { not_found_response(exception) }

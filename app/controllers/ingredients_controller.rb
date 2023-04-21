@@ -1,4 +1,16 @@
 class IngredientsController < ApplicationController
+
+
+    def ingredients_by_letter
+    ingredient_letter = Ingredient.where('name LIKE ?', "#{params[:letter].upcase}%")   
+        if ingredient_letter.length > 0
+            render json: ingredient_letter
+        else
+            render json: { error: "No ingredients found" }
+        end
+    end
+
+
     def index
         if params[:recipe_id] # if a recipe id was submitted, we're in a nested route /recipes/:recipe_id/ingredients
             recipe = Recipe.find_by!(id: params[:recipe_id])

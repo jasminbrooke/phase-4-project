@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+
+  get '/ingredients_by_letter/:letter', to: "ingredients#ingredients_by_letter"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
+  post "/search", to: "recipes#search"
   resources :sessions, only: %i[create destroy]
   resources :users, only: %i[update destroy] do
     resources :recipes, only: %i[index create update destroy]

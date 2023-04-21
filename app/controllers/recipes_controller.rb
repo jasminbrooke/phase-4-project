@@ -1,4 +1,11 @@
-class RecipesController < ApplicationController    
+class RecipesController < ApplicationController
+    skip_before_action :authorize, only: [:search]
+
+    def search
+        recipes = Recipe.where('description LIKE ?', "%#{params[:search_term]}%")
+        render json: recipes, status: :ok
+    end
+
     def index
         if params[:user_id] # if a user id was submitted, we're in a nested route /users/:user_id/recipes
             user = User.find_by!(id: params[:user_id])
